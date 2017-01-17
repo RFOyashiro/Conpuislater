@@ -1,0 +1,3 @@
+gcc -Wall -ggdb -c analyseur_lexical.c
+gcc    -c -o util.o util.c
+gcc -Wall -ggdb -o test_yylex test_yylex.c analyseur_lexical.o util.o 

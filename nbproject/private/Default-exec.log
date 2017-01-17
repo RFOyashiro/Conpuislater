@@ -1,0 +1,27 @@
+called: C:\cygwin\bin\gcc.exe
+	C:\Users\Medar\Documents\NetBeansProjects\Conpuislater
+	C:\cygwin\bin\gcc.exe
+	-Wall
+	-ggdb
+	-c
+	analyseur_lexical.c
+
+called: C:\cygwin\bin\gcc.exe
+	C:\Users\Medar\Documents\NetBeansProjects\Conpuislater
+	C:\cygwin\bin\gcc.exe
+	-c
+	-o
+	util.o
+	util.c
+
+called: C:\cygwin\bin\gcc.exe
+	C:\Users\Medar\Documents\NetBeansProjects\Conpuislater
+	C:\cygwin\bin\gcc.exe
+	-Wall
+	-ggdb
+	-o
+	test_yylex
+	test_yylex.c
+	analyseur_lexical.o
+	util.o
+
