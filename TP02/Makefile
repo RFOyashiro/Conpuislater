@@ -8,7 +8,7 @@ OBJ = analyseur_lexical.o util.o AnalyseurSynth.o
 all: compil
 	
 compil: Compil.c $(OBJ)
-	$(CC) $(CCFLAGS) -o compil Compil.c $(OBJ)
+	$(CC) $(CCFLAGS) -o compil.exe Compil.c $(OBJ)
 
 analyseur_lexical.o: analyseur_lexical.c
 	$(CC) $(CCFLAGS) -c analyseur_lexical.c
