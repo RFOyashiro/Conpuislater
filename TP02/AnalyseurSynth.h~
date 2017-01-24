@@ -1,0 +1,20 @@
+#ifndef __ANA_SYNTH__
+#define __ANA_SYNTH__
+
+#include "stdio.h"
+
+	void analyse(void);
+	void E0(void);
+	void E0a(void);
+	void E1(void);
+	void E1a(void);
+	void E2(void);
+	void E2a(void);
+	void E3(void);
+	void E3a(void);
+	void E4(void);
+	void E4a(void);
+	void E5(void);
+	void E6(void);
+	void E6a(void);
+#endif

@@ -1,0 +1,23 @@
+CC = gcc
+
+LIBS = -lm 
+CCFLAGS = -Wall -ggdb
+
+OBJ = analyseur_lexical.o util.o analyseurSynth.o
+
+all: compil
+	
+compil: Compil.c $(OBJ)
+	$(CC) $(CCFLAGS) -o compil Compil.c $(OBJ)
+
+analyseur_lexical.o: analyseur_lexical.c
+	$(CC) $(CCFLAGS) -c analyseur_lexical.c
+	
+analyseurSynth.o: AnalyseurSynth.c
+	$(CC) $(CCFLAGS) -c AnalyseurSynth.c
+
+.PHONY : clean
+
+clean:
+	- rm -f $(OBJ)
+	- rm -f compil

@@ -1,0 +1,208 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "AnalyseurSynth.h"
+#include "symboles.h"
+#include "analyseur_lexical.h"
+
+#define NB_SPACE_PER_INDENT 4
+#define DEBUG 1
+
+char uniteCourante;
+char nomToken[100];
+char valeur[100];
+
+int currentIndent;
+
+void DisplayIndent(void) {
+	int i;
+	for (i = 0; i < currentIndent; ++i) {
+		printf(" ");
+	}
+}
+
+void openXML(char *foncName) {
+	if (!DEBUG) return;
+	DisplayIndent();
+	printf("<%s>\n", foncName);
+	currentIndent += NB_SPACE_PER_INDENT;
+}
+
+void closeXML(char *foncName) {
+	if (!DEBUG) return;
+	currentIndent -= NB_SPACE_PER_INDENT;
+	DisplayIndent();
+	printf("</%s>\n", foncName);
+}
+
+void putToken(int token) {
+	if (!DEBUG) return;
+	nom_token(token, nomToken, valeur);
+	DisplayIndent();
+	printf("%s\n", valeur);
+}
+
+int checkToken(int token) {
+	if (token == uniteCourante) {
+		uniteCourante = yylex();
+		putToken(uniteCourante);
+		return 1;
+	}
+	return 0;
+}
+
+void error(int token) {
+	nom_token(token, nomToken, valeur);
+	fprintf(stderr, "Error on token : %s\n", valeur);
+	exit (-1);
+}
+
+void E0 (void) {
+	openXML("E0");
+	E1();
+	E0a();
+	closeXML("E0");
+}
+
+void E0a (void) {
+	openXML("E0a");
+	if (checkToken(OU)) {
+		E0();
+	}
+	else {
+		closeXML("E0a");
+		return;
+	}
+	closeXML("E0a");
+}
+
+void E1 (void) {
+	openXML("E1");
+	E2();
+	E1a();
+	closeXML("E1");
+}
+
+void E1a (void) {
+	openXML("E1a");
+	if (checkToken(ET)) {
+		E1();
+	}
+	else {
+		closeXML("E1a");
+		return;
+	}
+	closeXML("E1a");
+}
+
+void E2 (void) {
+	openXML("E2");
+	E3();
+	E2a();
+	closeXML("E2");
+}
+
+void E2a (void) {
+	openXML("E2a");
+	if (checkToken(EGAL)) {
+		E2();
+	}
+	else if (checkToken(INFERIEUR)) {
+		E2();
+	}
+	else {
+		closeXML("E2a");
+		return;
+	}
+	closeXML("E2a");
+}
+
+void E3 (void) {
+	openXML("E3");
+	E4();
+	E3a();
+	closeXML("E3");
+}
+
+void E3a (void) {
+	openXML("E3a");
+	if (checkToken(PLUS)) {
+		E3();
+	}
+	else if (checkToken(MOINS)) {
+		E3();
+	}
+	else {
+		closeXML("E3a");
+		return;
+	}
+	closeXML("E3a");
+}
+
+void E4 (void) {
+	openXML("E4");
+	E5();
+	E4a();
+	closeXML("E4");
+}
+
+void E4a (void) {
+	openXML("E4a");
+	if (checkToken(FOIS)) {
+		E4();
+	}
+	else if (checkToken(DIVISE)) {
+		E4();
+	}
+	else {
+		closeXML("E4a");
+		return;
+	}
+	closeXML("E4a");
+}
+
+void E5 (void) {
+	openXML("E5");
+	if (checkToken(NON)) {
+		E5();
+	}
+	else {
+		closeXML("E5");
+		E6();
+	}
+	closeXML("E5");
+}
+
+void E6 (void) {
+	openXML("E6");
+	if (checkToken(PARENTHESE_OUVRANTE)) {
+		E0();
+		if (!checkToken(PARENTHESE_FERMANTE)) {
+			error(uniteCourante);
+		}
+	}
+	else if (checkToken(NOMBRE)) {
+		closeXML("E6");
+		return;
+	}
+	// TEST de variable et appel de fonction
+	else {
+		closeXML("E6");
+		return;
+	}
+	closeXML("E6");
+}
+
+void analyse(void) {
+	uniteCourante = yylex();
+	currentIndent = 0;
+	
+	E0();
+	
+	if (!uniteCourante == FIN) {
+		error(FIN);
+	}
+	else {
+		printf("Lexical analyse succedded\n");
+	}
+}
