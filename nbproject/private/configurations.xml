@@ -4,8 +4,27 @@
     <df root="." name="0">
       <df name="ProgrammesSource(TEST)">
       </df>
+      <df name="TP02">
+        <df name="testFiles">
+        </df>
+        <in>AnalyseurSynth.c</in>
+        <in>AnalyseurSynth.h</in>
+        <in>Compil.c</in>
+        <in>Compli.c</in>
+        <in>analyseur_lexical.c</in>
+        <in>analyseur_lexical.h</in>
+        <in>symboles.h</in>
+        <in>util.c</in>
+        <in>util.h</in>
+      </df>
       <in>analyseur_lexical.c</in>
       <in>analyseur_lexical.h</in>
+      <in>analyseur_syntaxique.c</in>
+      <in>analyseur_syntaxique.h</in>
+      <in>premiers.c</in>
+      <in>premiers.h</in>
+      <in>suivants.c</in>
+      <in>suivants.h</in>
       <in>symboles.h</in>
       <in>test_yylex.c</in>
       <in>util.c</in>
@@ -49,6 +68,7 @@
       <runprofile version="9">
         <runcommandpicklist>
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" ProgrammesSource(TEST)/affect.l</runcommandpicklistitem>
         </runcommandpicklist>
         <runcommand>"${OUTPUT_PATH}" ProgrammesSource(TEST)/affect.l</runcommand>
         <arguments>ProgrammesSource(TEST)/affect.l</arguments>

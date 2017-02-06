@@ -4,6 +4,8 @@
 #include "analyseur_syntaxique.h"
 #include "symboles.h"
 #include "analyseur_lexical.h"
+#include "premiers.h"
+#include "suivants.h"
 
 // Number of sapce per indentation level.
 #define NB_SPACE_PER_INDENT 4
