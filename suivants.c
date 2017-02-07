@@ -349,6 +349,6 @@ void initialise_suivants(void) {
 	suivants[_listeExpressionsBis_][PARENTHESE_FERMANTE] = 1;
 }
 
-int est_suivant(int terminal, int non_terminal) {
+int est_suivant(int non_terminal, int terminal) {
 	return suivants[non_terminal][terminal];
 }

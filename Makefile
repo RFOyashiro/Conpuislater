@@ -3,7 +3,7 @@ CC = gcc
 LIBS = -lm 
 CCFLAGS = -Wall -ggdb
 
-OBJ = analyseur_lexical.o util.o 
+OBJ = analyseur_lexical.o util.o suivants.o premiers.o analyseur_syntaxique.o
 
 all: test_yylex
 

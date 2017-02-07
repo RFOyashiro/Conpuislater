@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "analyseur_lexical.h"
-#include "symboles.h"
 #include "suivants.h"
 #include "premiers.h"
+#include "analyseur_lexical.h"
+#include "analyseur_syntaxique.h"
+#include "symboles.h"
 
 char yytext[100];
 FILE *yyin;
@@ -20,6 +21,7 @@ int main(int argc, char **argv) {
 	initialise_premiers();
 	initialise_suivants();
 	
-	test_yylex_internal(yyin);
+	//test_yylex_internal(yyin);
+	analyse();
 	return 0;
 }

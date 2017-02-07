@@ -194,5 +194,5 @@ void initialise_premiers(void) {
 }
 
 int est_premier(int non_terminal, int terminal) {
-	return premiers[terminal][non_terminal];
+	return premiers[non_terminal][terminal];
 }
