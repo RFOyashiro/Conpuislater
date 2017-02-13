@@ -1,74 +1,74 @@
-<pg>
-  <odv>
-    <ldv>
-      <dv>
+<programme>
+  <optDecVariables>
+    <listeDecVariables>
+      <declarationVariable>
         <mot_clef>entier</mot_clef>
         <id_variable>$a</id_variable>
-        <ott>
-        </ott>
-      </dv>
-      <ldvb>
-      </ldvb>
-    </ldv>
+        <optTailleTableau>
+        </optTailleTableau>
+      </declarationVariable>
+      <listeDecVariablesBis>
+      </listeDecVariablesBis>
+    </listeDecVariables>
     <symbole>POINT_VIRGULE</symbole>
-  </odv>
-  <ldf>
-    <df>
+  </optDecVariables>
+  <listeDecFonctions>
+    <declarationFonction>
       <id_fonction>main</id_fonction>
-      <lp>
+      <listeParam>
         <symbole>PARENTHESE_OUVRANTE</symbole>
-        <oldv>
-        </oldv>
+        <optListeDecVariables>
+        </optListeDecVariables>
         <symbole>PARENTHESE_FERMANTE</symbole>
-      </lp>
-      <odv>
-      </odv>
-      <ib>
+      </listeParam>
+      <optDecVariables>
+      </optDecVariables>
+      <instructionBloc>
         <symbole>ACCOLADE_OUVRANTE</symbole>
-        <li>
-          <i>
-            <iaff>
+        <listeInstructions>
+          <instruction>
+            <instructionAffect>
               <var>
                 <id_variable>$a</id_variable>
-                <oind>
-                </oind>
+                <optIndice>
+                </optIndice>
               </var>
               <symbole>EGAL</symbole>
-              <exp>
-                <conj>
-                  <comp>
-                    <e>
-                      <t>
-                        <neg>
-                          <f>
+              <expression>
+                <conjonction>
+                  <comparaison>
+                    <expArith>
+                      <terme>
+                        <negation>
+                          <facteur>
                             <nombre>123</nombre>
-                          </f>
-                        </neg>
-                        <tb>
-                        </tb>
-                      </t>
-                      <eb>
-                      </eb>
-                    </e>
-                    <compb>
-                    </compb>
-                  </comp>
-                  <conjb>
-                  </conjb>
-                </conj>
-                <expb>
-                </expb>
-              </exp>
+                          </facteur>
+                        </negation>
+                        <termeBis>
+                        </termeBis>
+                      </terme>
+                      <expArithBis>
+                      </expArithBis>
+                    </expArith>
+                    <comparaisonBis>
+                    </comparaisonBis>
+                  </comparaison>
+                  <conjonctionBis>
+                  </conjonctionBis>
+                </conjonction>
+                <expressionBis>
+                </expressionBis>
+              </expression>
               <symbole>POINT_VIRGULE</symbole>
-            </iaff>
-          </i>
-          <li>
-          </li>
-        </li>
+            </instructionAffect>
+          </instruction>
+          <listeInstructions>
+          </listeInstructions>
+        </listeInstructions>
         <symbole>ACCOLADE_FERMANTE</symbole>
-      </ib>
-    </df>
-    <ldf>
-    </ldf>
-  </ldf>
-</pg>
+      </instructionBloc>
+    </declarationFonction>
+    <listeDecFonctions>
+    </listeDecFonctions>
+  </listeDecFonctions>
+</programme>
