@@ -47,8 +47,8 @@ void DisplayIndent(void) {
  */
 void openXML(const char *tagName) {
 	if (!DEBUG) return;
-	DisplayIndent();
-	printf("<%s>\n", tagName);
+        DisplayIndent();
+        printf("<%s>\n", tagName);
 	currentIndent += NB_SPACE_PER_INDENT;
 }
 
@@ -101,13 +101,13 @@ void error() {
 
 
 
-void PG (void) {
+void pg (void) {
 	openXML(__func__);
 	if (est_premier(_optDecVariables_, currentUnit) || 
 	  est_premier(_listeDecFonctions_, currentUnit) ||
 	  est_suivant(_programme_, currentUnit)) {
-		ODV();
-		LDF();
+                odv();
+                ldf();
 		closeXML(__func__);
 		return;	
 	}
@@ -115,10 +115,10 @@ void PG (void) {
 	closeXML(__func__);
 }
 
-void ODV (void) {
+void odv (void) {
 	openXML(__func__);
 	if (est_premier(_listeDecVariables_, currentUnit)) {
-		LDV();
+                ldv();
 		if (checkToken(POINT_VIRGULE)) {
 			
 			closeXML(__func__);
@@ -133,11 +133,11 @@ void ODV (void) {
 	closeXML(__func__);
 }
 
-void LDV (void) {
+void ldv (void) {
 	openXML(__func__);
 	if (est_premier(_declarationVariable_, currentUnit)) {
-		DV();
-		LDVB();
+                dv();
+                ldvb();
 		closeXML(__func__);
 		return;
 	}
@@ -145,11 +145,11 @@ void LDV (void) {
 	closeXML(__func__);
 }
 
-void LDVB (void) {
+void ldvb (void) {
 	openXML(__func__);
 	if (checkToken(VIRGULE)) {
-		DV();
-		LDVB();
+                dv();
+                ldvb();
 		closeXML(__func__);
 		return;
 	}
@@ -161,13 +161,13 @@ void LDVB (void) {
 	closeXML(__func__);
 }
 
-void DV (void) {
+void dv (void) {
 	openXML(__func__);
 	if (checkToken(ENTIER)) {
 		
 		if (checkToken(ID_VAR)) {
 			
-			OTT();
+                        ott();
 			closeXML(__func__);
 			return;
 		}
@@ -176,7 +176,7 @@ void DV (void) {
 	closeXML(__func__);
 }
 
-void OTT (void) {
+void ott (void) {
 	openXML(__func__);
 	if (checkToken(CROCHET_OUVRANT)) {
 		
@@ -197,11 +197,11 @@ void OTT (void) {
 	closeXML(__func__);
 }
 
-void LDF (void) {
+void ldf (void) {
 	openXML(__func__);
 	if (est_premier(_declarationFonction_, currentUnit)) {
-		DF();
-		LDF();
+                df();
+                ldf();
 		closeXML(__func__);
 		return;
 	}
@@ -213,13 +213,13 @@ void LDF (void) {
 	closeXML(__func__);
 }
 
-void DF (void) {
+void df (void) {
 	openXML(__func__);
 	if (checkToken(ID_FCT)) {
 		
-		LP();
-		ODV();
-		IB();
+                lp();
+                odv();
+                ib();
 		closeXML(__func__);
 		return;
 	}
@@ -227,11 +227,11 @@ void DF (void) {
 	closeXML(__func__);
 }
 
-void LP (void) {
+void lp (void) {
 	openXML(__func__);
 	if (checkToken(PARENTHESE_OUVRANTE)) {
 		
-		OLDV();
+                oldv();
 		if (checkToken(PARENTHESE_FERMANTE)) {
 			
 			closeXML(__func__);
@@ -242,10 +242,10 @@ void LP (void) {
 	closeXML(__func__);
 }
 
-void OLDV (void) {
+void oldv (void) {
 	openXML(__func__);
 	if (est_premier(_listeDecVariables_, currentUnit)) {
-		LDV();
+                ldv();
 		closeXML(__func__);
 		return;
 	}
@@ -257,45 +257,45 @@ void OLDV (void) {
 	error();
 }
 
-void I (void) {
+void i (void) {
 	openXML(__func__);
 	if (est_premier(_instructionAffect_, currentUnit)) {
-		IAFF();
+                iaff();
 		closeXML(__func__);
 		return;
 	}
 	if (est_premier(_instructionBloc_, currentUnit)) {
-		IB();
+                ib();
 		closeXML(__func__);
 		return;
 	}
 	if (est_premier(_instructionSi_, currentUnit)) {
-		ISI();
+                isi();
 		closeXML(__func__);
 		return;
 	}
 	if (est_premier(_instructionTantque_, currentUnit)) {
-		ITQ();
+                itq();
 		closeXML(__func__);
 		return;
 	}
 	if (est_premier(_instructionAppel_, currentUnit)) {
-		IAPP();
+                iapp();
 		closeXML(__func__);
 		return;
 	}
 	if (est_premier(_instructionRetour_, currentUnit)) {
-		IRET();
+                iret();
 		closeXML(__func__);
 		return;
 	}
 	if (est_premier(_instructionEcriture_, currentUnit)) {
-		IECR();
+                iecr();
 		closeXML(__func__);
 		return;
 	}
 	if (est_premier(_instructionVide_, currentUnit)) {
-		IVIDE();
+                ivide();
 		closeXML(__func__);
 		return;
 	}
@@ -303,13 +303,13 @@ void I (void) {
 	closeXML(__func__);
 }
 
-void IAFF (void) {
+void iaff (void) {
 	openXML(__func__);
 	if (est_premier(_var_, currentUnit)) {
-		VAR();
+                var();
 		if (checkToken(EGAL)) {
 			
-			EXP();
+                        exp();
 			if (checkToken(POINT_VIRGULE)) {
 				
 				closeXML(__func__);
@@ -321,11 +321,11 @@ void IAFF (void) {
 	closeXML(__func__);
 }
 
-void IB (void) {
+void ib (void) {
 	openXML(__func__);
 	if (checkToken(ACCOLADE_OUVRANTE)) {
 		
-		LI();
+                li();
 		if (checkToken(ACCOLADE_FERMANTE)) {
 			
 			closeXML(__func__);
@@ -336,11 +336,11 @@ void IB (void) {
 	closeXML(__func__);
 }
 
-void LI (void) {
+void li (void) {
 	openXML(__func__);
 	if (est_premier(_instruction_, currentUnit)) {
-		I();
-		LI();
+                i();
+                li();
 		closeXML(__func__);
 		return;
 	}
@@ -352,15 +352,15 @@ void LI (void) {
 	closeXML(__func__);
 }
 
-void ISI (void) {
+void isi (void) {
 	openXML(__func__);
 	if (checkToken(SI)) {
 		
-		EXP();
+                exp();
 		if (checkToken(ALORS)) {
 			
-			IB();
-			OSINON();
+                        ib();
+                        osinon();
 			closeXML(__func__);
 			return;
 		}
@@ -369,11 +369,11 @@ void ISI (void) {
 	closeXML(__func__);	
 }
 
-void OSINON (void) {
+void osinon (void) {
 	openXML(__func__);
 	if (checkToken(SINON)) {
 		
-		IB();
+                ib();
 		closeXML(__func__);
 		return;
 	}
@@ -385,14 +385,14 @@ void OSINON (void) {
 	closeXML(__func__);
 }
 
-void ITQ (void) {
+void itq (void) {
 	openXML(__func__);
 	if (checkToken(TANTQUE)) {
 		
-		EXP();
+                exp();
 		if (checkToken(FAIRE)) {
 			
-			IB();
+                        ib();
 			closeXML(__func__);
 			return;
 		}
@@ -401,10 +401,10 @@ void ITQ (void) {
 	closeXML(__func__);
 }
 
-void IAPP (void) {
+void iapp (void) {
 	openXML(__func__);
 	if (est_premier(_appelFct_, currentUnit)) {
-		APPF();
+                appf();
 		if (checkToken(POINT_VIRGULE)) {
 			
 			closeXML(__func__);
@@ -415,11 +415,11 @@ void IAPP (void) {
 	closeXML(__func__);
 }
 
-void IRET (void) {
+void iret (void) {
 	openXML(__func__);
 	if (checkToken(RETOUR)) {
 		
-		EXP();
+                exp();
 		if (checkToken(POINT_VIRGULE)) {
 			
 			closeXML(__func__);
@@ -430,13 +430,13 @@ void IRET (void) {
 	closeXML(__func__);
 }
 
-void IECR (void) {
+void iecr (void) {
 	openXML(__func__);
 	if (checkToken(ECRIRE)) {
 		
 		if (checkToken(PARENTHESE_OUVRANTE)) {
 			
-			EXP();
+                        exp();
 			if (checkToken(PARENTHESE_FERMANTE)) {
 				
 				if (checkToken(POINT_VIRGULE)) {
@@ -451,7 +451,7 @@ void IECR (void) {
 	closeXML(__func__);
 }
 
-void IVIDE (void) {
+void ivide (void) {
 	openXML(__func__);
 	if (checkToken(POINT_VIRGULE)) {
 		
@@ -462,11 +462,11 @@ void IVIDE (void) {
 	closeXML(__func__);
 }
 
-void EXP (void) {
+void exp (void) {
 	openXML(__func__);
 	if (est_premier(_conjonction_, currentUnit)) {
-		CONJ();
-		EXPB();
+                conj();
+                expb();
 		closeXML(__func__);
 		return;
 	}
@@ -474,12 +474,12 @@ void EXP (void) {
 	closeXML(__func__);
 }
 
-void EXPB (void) {
+void expb (void) {
 	openXML(__func__);
 	if (checkToken(OU)) {
 		
-		CONJ();
-		EXPB();
+                conj();
+                expb();
 		closeXML(__func__);
 		return;
 	}
@@ -491,11 +491,11 @@ void EXPB (void) {
 	closeXML(__func__);
 }
 
-void CONJ (void) {
+void conj (void) {
 	openXML(__func__);
 	if (est_premier(_comparaison_, currentUnit)) {
-		COMP();
-		CONJB();
+                comp();
+                conjb();
 		closeXML(__func__);
 		return;
 	}
@@ -503,12 +503,12 @@ void CONJ (void) {
 	closeXML(__func__);
 }
 
-void CONJB (void) {
+void conjb (void) {
 	openXML(__func__);
 	if (checkToken(ET)) {
 		
-		COMP();
-		CONJB();
+                comp();
+                conjb();
 		closeXML(__func__);
 		return;
 	}
@@ -520,11 +520,11 @@ void CONJB (void) {
 	closeXML(__func__);
 }
 
-void COMP (void) {
+void comp (void) {
 	openXML(__func__);
 	if (est_premier(_expArith_, currentUnit)) {
-		E();
-		COMPB();
+                e();
+                compb();
 		closeXML(__func__);
 		return;
 	}
@@ -532,19 +532,19 @@ void COMP (void) {
 	closeXML(__func__);
 }
 
-void COMPB (void) {
+void compb (void) {
 	openXML(__func__);
 	if (checkToken(EGAL)) {
 		
-		E();
-		COMPB();
+                e();
+                compb();
 		closeXML(__func__);
 		return;
 	}
 	if (checkToken(INFERIEUR)) {
 		
-		E();
-		COMPB();
+                e();
+                compb();
 		closeXML(__func__);
 		return;
 	}
@@ -557,11 +557,11 @@ void COMPB (void) {
 	closeXML(__func__);
 }
 
-void E (void) {
+void e (void) {
 	openXML(__func__);
 	if (est_premier(_terme_, currentUnit)) {
-		T();
-		EB();
+                t();
+                eb();
 		closeXML(__func__);
 		return;
 	}
@@ -569,19 +569,19 @@ void E (void) {
 	closeXML(__func__);
 }
 
-void EB (void) {
+void eb (void) {
 	openXML(__func__);
 	if (checkToken(PLUS)) {
 		
-		T();
-		EB();
+                t();
+                eb();
 		closeXML(__func__);
 		return;
 	}
 	if (checkToken(MOINS)) {
 		
-		T();
-		EB();
+                t();
+                eb();
 		closeXML(__func__);
 		return;
 	}
@@ -593,11 +593,11 @@ void EB (void) {
 	closeXML(__func__);
 }
 
-void T (void) {
+void t (void) {
 	openXML(__func__);
 	if (est_premier(_negation_, currentUnit)) {
-		NEG();
-		TB();
+                neg();
+                tb();
 		closeXML(__func__);
 		return;
 	}
@@ -605,19 +605,19 @@ void T (void) {
 	closeXML(__func__);
 }
 
-void TB (void) {
+void tb (void) {
 	openXML(__func__);
 	if (checkToken(FOIS)) {
 		
-		NEG();
-		TB();
+                neg();
+                tb();
 		closeXML(__func__);
 		return;
 	}
 	if (checkToken(DIVISE)) {
 		
-		NEG();
-		TB();
+                neg();
+                tb();
 		closeXML(__func__);
 		return;
 	}
@@ -629,16 +629,16 @@ void TB (void) {
 	closeXML(__func__);
 }
 
-void NEG (void) {
+void neg (void) {
 	openXML(__func__);
 	if (checkToken(NON)) {
 		
-		NEG();
+                neg();
 		closeXML(__func__);
 		return;
 	}
 	if (est_premier(_facteur_, currentUnit)) {
-		F();
+                f();
 		closeXML(__func__);
 		return;
 	}
@@ -646,11 +646,11 @@ void NEG (void) {
 	closeXML(__func__);
 }
 
-void F (void) {
+void f (void) {
 	openXML(__func__);
 	if (checkToken(PARENTHESE_OUVRANTE)) {
 		
-		EXP();
+                exp();
 		if (checkToken(PARENTHESE_FERMANTE)) {
 			
 			closeXML(__func__);
@@ -674,12 +674,12 @@ void F (void) {
 		}
 	}
 	if (est_premier(_appelFct_, currentUnit)) {
-		APPF();
+                appf();
 		closeXML(__func__);
 		return;
 	}
 	if (est_premier(_var_, currentUnit)) {
-		VAR();
+                var();
 		closeXML(__func__);
 		return;
 	}
@@ -687,11 +687,11 @@ void F (void) {
 	closeXML(__func__);
 }
 
-void VAR (void) {
+void var (void) {
 	openXML(__func__);
 	if (checkToken(ID_VAR)) {
 		
-		OIND();
+                oind();
 		closeXML(__func__);
 		return;
 	}
@@ -699,11 +699,11 @@ void VAR (void) {
 	closeXML(__func__);
 }
 
-void OIND (void) {
+void oind (void) {
 	openXML(__func__);
 	if (checkToken(CROCHET_OUVRANT)) {
 		
-		EXP();
+                exp();
 		if (checkToken(CROCHET_FERMANT)) {
 			
 			closeXML(__func__);
@@ -718,13 +718,13 @@ void OIND (void) {
 	closeXML(__func__);
 }
 
-void APPF (void) {
+void appf (void) {
 	openXML(__func__);
 	if (checkToken(ID_FCT)) {
 		
 		if (checkToken(PARENTHESE_OUVRANTE)) {
 			
-			LEXP();
+                        lexp();
 			if (checkToken(PARENTHESE_FERMANTE)) {
 				
 				closeXML(__func__);
@@ -740,11 +740,11 @@ void APPF (void) {
 	closeXML(__func__);
 }
 
-void LEXP (void) {
+void lexp (void) {
 	openXML(__func__);
 	if (est_premier(_expression_, currentUnit)) {
-		EXP();
-		LEXPB();
+                exp();
+                lexpb();
 		closeXML(__func__);
 		return;
 	}
@@ -756,12 +756,12 @@ void LEXP (void) {
 	closeXML(__func__);
 }
 
-void LEXPB (void) {
+void lexpb (void) {
 	openXML(__func__);
 	if (checkToken(VIRGULE)) {
 		
-		EXP();
-		LEXPB();
+                exp();
+                lexpb();
 		closeXML(__func__);
 		return;
 	}
@@ -781,7 +781,7 @@ void analyse(void) {
 	currentUnit = yylex();
 	currentIndent = 0;
 	
-	PG();
+        pg();
 	
 	if (!checkToken(FIN)) {
 		error();
