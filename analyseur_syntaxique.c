@@ -8,7 +8,7 @@
 #include "suivants.h"
 
 // Number of sapce per indentation level.
-#define NB_SPACE_PER_INDENT 4
+#define NB_SPACE_PER_INDENT 2
 // Display debug values if is 1.
 #define DEBUG 1
 
@@ -66,13 +66,58 @@ void closeXML(const char *tagName) {
 
 /**
  * DEBUG
+ * Get the tag corresponding to the token (terminal symbol only)
+ */
+char * getTokenTag(int token) {
+	if (!DEBUG) return NULL;
+	switch (token) {
+		case ENTIER:
+		case SI:
+		case ALORS:
+		case SINON:
+		case TANTQUE:
+		case FAIRE:
+		case RETOUR:
+		case LIRE:
+		case ECRIRE:
+			return "mot_clef";
+		case POINT_VIRGULE:
+		case PLUS:
+		case MOINS:
+		case FOIS:
+		case DIVISE:
+		case PARENTHESE_OUVRANTE:
+		case PARENTHESE_FERMANTE:
+		case CROCHET_OUVRANT:
+		case CROCHET_FERMANT:
+		case ACCOLADE_OUVRANTE:
+		case ACCOLADE_FERMANTE:
+		case EGAL:
+		case INFERIEUR:
+		case ET:
+		case OU:
+		case NON:
+		case VIRGULE:
+			return "symbole";
+		case ID_VAR:
+			return "id_variable";
+		case ID_FCT:
+			return "id_fonction";
+		case NOMBRE :
+			return "nombre";
+	}
+}
+
+/**
+ * DEBUG
  * Display the token value with indentation.
  */
 void putToken(int token) {
 	if (!DEBUG) return;
 	nom_token(token, nomToken, valeur);
 	DisplayIndent();
-	printf("%s\n", valeur);
+	char * tag = getTokenTag(token);
+	printf("<%s>%s</%s>\n", tag, valeur, tag);
 }
 
 /**
@@ -90,8 +135,7 @@ int checkToken(int token) {
 }
 
 /**
- * Display "Error on token : " with the value of the token.
- * int token the token to be displayed (usually currentUnit).
+ * Display "Error on token : " with the value of the currentUnit.
  */
 void error() {
 	nom_token(currentUnit, nomToken, valeur);
@@ -783,10 +827,10 @@ void analyse(void) {
 	
         pg();
 	
-	if (!checkToken(FIN)) {
+	if (currentUnit != FIN) {
 		error();
 	}
 	else {
-		printf("Lexical analyse succeded\n");
+		//printf("Lexical analyse succeded\n");
 	}
 }

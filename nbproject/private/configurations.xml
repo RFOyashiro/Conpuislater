@@ -21,6 +21,9 @@
       <in>analyseur_lexical.h</in>
       <in>analyseur_syntaxique.c</in>
       <in>analyseur_syntaxique.h</in>
+      <in>analyseur_xml.c</in>
+      <in>analyseur_xml.h</in>
+      <in>compare_arbres_xml.c</in>
       <in>premiers.c</in>
       <in>premiers.h</in>
       <in>suivants.c</in>
