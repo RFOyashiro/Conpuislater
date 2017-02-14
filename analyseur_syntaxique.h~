@@ -31,7 +31,6 @@ void iapp (void);
 void iret (void);
 void iecr (void);
 void ivide (void);
-void ift (void);
 void exp (void);
 void expb (void);
 void conj (void);

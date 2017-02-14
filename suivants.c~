@@ -165,15 +165,7 @@ void initialise_suivants(void) {
 	suivants[_instructionVide_][ACCOLADE_FERMANTE] = 1;
 	
 	// IFT
-	suivants[_instructionFaire_][ID_VAR] = 1;
-	suivants[_instructionFaire_][ACCOLADE_OUVRANTE] = 1;
-	suivants[_instructionFaire_][SI] = 1;
-	suivants[_instructionFaire_][TANTQUE] = 1;
-	suivants[_instructionFaire_][ID_FCT] = 1;
-	suivants[_instructionFaire_][RETOUR] = 1;
-	suivants[_instructionFaire_][ECRIRE] = 1;
-	suivants[_instructionFaire_][POINT_VIRGULE] = 1;
-	suivants[_instructionFaire_][ACCOLADE_FERMANTE] = 1;
+	suivants[_instructionFaire_][FAIRE] = 1;
 	
 	// EXP
 	suivants[_expression_][POINT_VIRGULE] = 1;
