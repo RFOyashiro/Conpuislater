@@ -19,11 +19,11 @@ char currentUnit;
 /**
  * Name of current token if needed to be displayed.
  */
-char nomToken[100];
+char *nomToken;
 /**
  * Value of current token if needed to be displayed.
  */
-char valeur[100];
+char *valeur;
 
 /**
  * Current indentation level.
@@ -145,224 +145,270 @@ void error() {
 
 
 
-void pg (void) {
+n_prog *pg (void) {
+
+	n_l_dec *$odv = NULL;
+	n_prog *$odv = NULL;
+	n_l_dec *$ldf = NULL;
 	openXML(__func__);
 	if (est_premier(_optDecVariables_, currentUnit) || 
 	  est_premier(_listeDecFonctions_, currentUnit) ||
 	  est_suivant(_programme_, currentUnit)) {
-                odv();
-                ldf();
+                $odv = odv();
+                $ldf = ldf();
+                $pg = cree_n_prog($odv, $ldf);
 		closeXML(__func__);
-		return;	
+		return $pg;	
 	}
 	error();
 	closeXML(__func__);
 }
 
-void odv (void) {
+n_l_dec *odv (void) {
+
+	n_l_dec *$odv = NULL;
 	openXML(__func__);
 	if (est_premier(_listeDecVariables_, currentUnit)) {
-                ldv();
+        $odv = ldv();
 		if (checkToken(POINT_VIRGULE)) {
-			
 			closeXML(__func__);
-			return;
+			return $odv;
 		}
 	}
 	if (est_suivant(_optDecVariables_, currentUnit)) {
 		closeXML(__func__);
-		return;
+		return NULL;
 	}
 	error();
 	closeXML(__func__);
 }
 
-void ldv (void) {
+n_l_dec *ldv (void) {
+
+	n_l_dec *$ldv = NULL;
+	n_l_dec *$ldvb = NULL;
+	n_dec *$dv = NULL;
 	openXML(__func__);
 	if (est_premier(_declarationVariable_, currentUnit)) {
-                dv();
-                ldvb();
+                $dv = dv();
+                $ldvb = ldvb();
+                $ldv = cree_n_l_dec($dv, $ldvb);
 		closeXML(__func__);
-		return;
+		return $ldv;
 	}
 	error();
 	closeXML(__func__);
 }
 
-void ldvb (void) {
+n_l_dec * ldvb (void) {
+
+	n_l_dec *$ldvb = NULL;
+	n_l_dec *$ldvb2 = NULL;
+	n_dec *$dv = NULL;
 	openXML(__func__);
 	if (checkToken(VIRGULE)) {
-                dv();
-                ldvb();
+                $dv = dv();
+                $ldvb2 = ldvb();
+                $ldvb = cree_n_l_dec($dv, $ldvb2);
 		closeXML(__func__);
-		return;
+		return $ldvb;
 	}
 	if (est_suivant(_listeDecVariablesBis_, currentUnit)) {
 		closeXML(__func__);
-		return;
+		return NULL;
 	}
 	error();
 	closeXML(__func__);
 }
 
-void dv (void) {
+n_dec *dv (void) {
+
+	int $ott = -1;
+	n_dec *$dv = NULL;
 	openXML(__func__);
 	if (checkToken(ENTIER)) {
 		
 		if (checkToken(ID_VAR)) {
-			
-                        ott();
+            $ott = ott();
+            if ($ott < 0)
+            	$dv = cree_n_dec_var(valeur);
+            else 
+            	$dv = cree_n_dec_tab(valeur, $ott);
 			closeXML(__func__);
-			return;
+			return $dv;
 		}
 	}
 	error();
 	closeXML(__func__);
 }
 
-void ott (void) {
+int ott (void) {
+
+	int $ott = -1;
 	openXML(__func__);
 	if (checkToken(CROCHET_OUVRANT)) {
 		
 		if (checkToken(NOMBRE)) {
 			
 			if (checkToken(CROCHET_FERMANT)) {
-				
+				$ott = atoi(valeur);
 				closeXML(__func__);
-				return;
+				return $ott;
 			}
 		}
 	}
 	if (est_suivant(_optTailleTableau_, currentUnit)) {
 		closeXML(__func__);
-		return;
+		return -1;
 	}
 	error();
 	closeXML(__func__);
 }
 
-void ldf (void) {
+n_l_dec *ldf (void) {
+
+	n_l_dec *$ldf = NULL;
+	n_l_dec *$ldf2 = NULL;
+	n_dec *$df = NULL;
 	openXML(__func__);
 	if (est_premier(_declarationFonction_, currentUnit)) {
-                df();
-                ldf();
+                $df = df();
+                $ldf2 = ldf();
+                $ldf = cree_n_l_dec($df, $ldf2);
 		closeXML(__func__);
-		return;
+		return $ldf;
 	}
 	if (est_suivant(_listeDecFonctions_, currentUnit)) {
 		closeXML(__func__);
-		return;
+		return NULL;
 	}
 	error();
 	closeXML(__func__);
 }
 
-void df (void) {
+n_dec *df (void) {
+
+	n_dec *$df = NULL;
+	n_l_dec *$lp = NULL;
+	n_l_dec *$odv = NULL;
+	n_instr *$ib = NULL;
 	openXML(__func__);
 	if (checkToken(ID_FCT)) {
 		
-                lp();
-                odv();
-                ib();
+        $lp = lp();
+        $odv = odv();
+        $ib = ib();
+        $df = cree_n_dec_fonc(valeur, $lp, $odv, $ib);
 		closeXML(__func__);
-		return;
+		return $df;
 	}
 	error();	
 	closeXML(__func__);
 }
 
-void lp (void) {
+n_l_dec *lp (void) {
+
+	n_l_dec *$oldv = NULL;
 	openXML(__func__);
 	if (checkToken(PARENTHESE_OUVRANTE)) {
 		
-                oldv();
+        $oldv = oldv();
 		if (checkToken(PARENTHESE_FERMANTE)) {
 			
 			closeXML(__func__);
-			return;
+			return $oldv;
 		}
 	}
 	error();
 	closeXML(__func__);
 }
 
-void oldv (void) {
+n_l_dec *oldv (void) {
+
+	n_l_dec *$oldv = NULL;
 	openXML(__func__);
 	if (est_premier(_listeDecVariables_, currentUnit)) {
-                ldv();
+        $oldv = ldv();
 		closeXML(__func__);
-		return;
+		return $oldv;
 	}
 	if (est_suivant(_optListeDecVariables_, currentUnit)) {
 		closeXML(__func__);
-		return;
+		return NULL;
 	}
 	closeXML(__func__);
 	error();
 }
 
-void i (void) {
+n_instr *i (void) {
+
+	n_instr *$i = NULL;
 	openXML(__func__);
 	if (est_premier(_instructionAffect_, currentUnit)) {
-                iaff();
+        $i = iaff();
 		closeXML(__func__);
-		return;
+		return $i;
 	}
 	if (est_premier(_instructionBloc_, currentUnit)) {
-                ib();
+        $i = ib();
 		closeXML(__func__);
-		return;
+		return $i;
 	}
 	if (est_premier(_instructionSi_, currentUnit)) {
-                isi();
+        $i = isi();
 		closeXML(__func__);
-		return;
+		return $i;
 	}
 	if (est_premier(_instructionTantque_, currentUnit)) {
-                itq();
+        $i = itq();
 		closeXML(__func__);
-		return;
+		return $i;
 	}
 	if (est_premier(_instructionAppel_, currentUnit)) {
-                iapp();
+        $i = iapp();
 		closeXML(__func__);
-		return;
+		return $i;
 	}
 	if (est_premier(_instructionRetour_, currentUnit)) {
-                iret();
+        $i = iret();
 		closeXML(__func__);
-		return;
+		return $i;
 	}
 	if (est_premier(_instructionEcriture_, currentUnit)) {
-                iecr();
+        $i = iecr();
 		closeXML(__func__);
-		return;
+		return $i;
 	}
 	if (est_premier(_instructionVide_, currentUnit)) {
-                ivide();
+        $i = ivide();
 		closeXML(__func__);
-		return;
+		return $i;
 	}
 	if (est_premier(_instructionFaire_, currentUnit)) {
-                ift();
+        $i = ift();
 		closeXML(__func__);
-		return;
+		return $i;
 	}
 	error();
 	closeXML(__func__);
 }
 
-void iaff (void) {
+n_instr *iaff (void) {
+
+	n_instr *$iaff = NULL;
+	n_var *$var = NULL;
+	n_exp *$exp = NULL;
 	openXML(__func__);
 	if (est_premier(_var_, currentUnit)) {
-                var();
+        $var = var();
 		if (checkToken(EGAL)) {
 			
-                        exp();
+            $exp = exp();
 			if (checkToken(POINT_VIRGULE)) {
 				
+				$iaff = cree_n_instr_affect($var, $exp);
 				closeXML(__func__);
-				return;
+				return $iaff;
 			}
 		}
 	}
@@ -370,80 +416,105 @@ void iaff (void) {
 	closeXML(__func__);
 }
 
-void ib (void) {
+n_instr *ib (void) {
+
+	n_instr *$ib = NULL;
+	n_l_instr *$li = NULL;
 	openXML(__func__);
 	if (checkToken(ACCOLADE_OUVRANTE)) {
 		
-                li();
+        $li = li();
 		if (checkToken(ACCOLADE_FERMANTE)) {
 			
+			$ib = cree_n_instr_bloc($li);
 			closeXML(__func__);
-			return;
+			return $ib;
 		}
 	}
 	error();
 	closeXML(__func__);
 }
 
-void li (void) {
+n_l_instr *li (void) {
+
+	n_l_instr *$li = NULL;
+	n_l_instr *$li2 = NULL;
+	n_instr *$i = NULL;
 	openXML(__func__);
 	if (est_premier(_instruction_, currentUnit)) {
-                i();
-                li();
+        $i = i();
+        $li2 = li();
+        
+        $li = cree_n_l_instr($i, $li2);
 		closeXML(__func__);
-		return;
+		return $li;
 	}
 	if (est_suivant(_listeInstructions_, currentUnit)) {
 		closeXML(__func__);
-		return;
+		return NULL;
 	}
 	error();
 	closeXML(__func__);
 }
 
-void isi (void) {
+n_instr *isi (void) {
+
+	n_instr *$isi = NULL;
+	n_instr *$ib = NULL;
+	n_exp *$exp = NULL;
+	n_instr *$osinon = NULL;
 	openXML(__func__);
 	if (checkToken(SI)) {
 		
-                exp();
+        $exp = exp();
 		if (checkToken(ALORS)) {
 			
-                        ib();
-                        osinon();
+            $ib = ib();
+            $osinon = osinon();
+            
+            $isi = cree_n_instr_si($exp, $ib, $osinon);
 			closeXML(__func__);
-			return;
+			return $isi;
 		}
 	}
 	error();
 	closeXML(__func__);	
 }
 
-void osinon (void) {
+n_instr *osinon (void) {
+
+	n_instr *$osinon = NULL;
 	openXML(__func__);
 	if (checkToken(SINON)) {
 		
-                ib();
+        $osinon = ib();
 		closeXML(__func__);
-		return;
+		return $osinon;
 	}
 	if (est_suivant(_optSinon_, currentUnit)) {
 		closeXML(__func__);
-		return;
+		return NULL;
 	}
 	error();
 	closeXML(__func__);
 }
 
-void itq (void) {
+n_instr *itq (void) {
+
+	n_instr *$itq = NULL;
+	n_exp *$exp = NULL;
+	n_instr *$ib = NULL;
 	openXML(__func__);
 	if (checkToken(TANTQUE)) {
 		
-                exp();
+        $exp = exp();
 		if (checkToken(FAIRE)) {
 			
-                        ib();
+            $ib = ib();
+            
+            $itq = cree_n_instr_tantque(n_exp *test, n_instr *faire);
 			closeXML(__func__);
-			return;
+			return $itq;
 		}
 	}
 	
@@ -451,16 +522,22 @@ void itq (void) {
 	closeXML(__func__);
 }
 
-void ift(void) {
+n_instr *ift(void) {
+
+	n_instr *$ib = NULL;
+	n_instr *$ift = NULL;
+	n_exp *$exp = NULL;
 	openXML(__func__);
 	if (checkToken(FAIRE)){
-		ib();
+		$ib = ib();
 		if (checkToken(TANTQUE)) {
-			exp();
+			$exp = exp();
 			
 			if (checkToken(POINT_VIRGULE)) {
+			
+				$ift = cree_n_instr_faire($ib, $exp);
 				closeXML(__func__);
-				return;
+				return $ift;
 			}
 		}	
 	}
@@ -468,48 +545,60 @@ void ift(void) {
 	closeXML(__func__);
 }
 
-void iapp (void) {
+n_instr *iapp (void) {
+
+	n_instr *$iapp = NULL;
+	n_appel *$appf = NULL;
 	openXML(__func__);
 	if (est_premier(_appelFct_, currentUnit)) {
-                appf();
+        $appf = appf();
 		if (checkToken(POINT_VIRGULE)) {
 			
+			$iapp = cree_n_instr_appel(n_appel *appel);
 			closeXML(__func__);
-			return;
+			return $iapp;
 		}
 	}
 	error();
 	closeXML(__func__);
 }
 
-void iret (void) {
+n_instr *iret (void) {
+
+	n_exp *$exp = NULL;
+	n_instr *$iret = NULL;
 	openXML(__func__);
 	if (checkToken(RETOUR)) {
 		
-                exp();
+        $exp = exp();
 		if (checkToken(POINT_VIRGULE)) {
 			
+			$iret = cree_n_instr_retour(n_exp *expression);
 			closeXML(__func__);
-			return;
+			return $iret;
 		}
 	}
 	error();
 	closeXML(__func__);
 }
 
-void iecr (void) {
+n_instr *iecr (void) {
+
+	n_instr *$iecr = NULL;
+	n_exp *$exp = NULL;
 	openXML(__func__);
 	if (checkToken(ECRIRE)) {
 		
 		if (checkToken(PARENTHESE_OUVRANTE)) {
 			
-                        exp();
+            $exp = exp();
 			if (checkToken(PARENTHESE_FERMANTE)) {
 				
 				if (checkToken(POINT_VIRGULE)) {
 					
+					$iecr = cree_n_instr_ecrire($exp);
 					closeXML(__func__);
-					return;
+					return $iecr;
 				}
 			}
 		}
