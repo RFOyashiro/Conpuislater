@@ -6,6 +6,7 @@
 #include "analyseur_lexical.h"
 #include "premiers.h"
 #include "suivants.h"
+#include "syntabs.h"
 
 // Number of sapce per indentation level.
 #define NB_SPACE_PER_INDENT 2
@@ -148,20 +149,19 @@ void error() {
 n_prog *pg (void) {
 
 	n_l_dec *$odv = NULL;
-	n_prog *$odv = NULL;
+	n_prog *$pg = NULL;
 	n_l_dec *$ldf = NULL;
 	openXML(__func__);
 	if (est_premier(_optDecVariables_, currentUnit) || 
 	  est_premier(_listeDecFonctions_, currentUnit) ||
 	  est_suivant(_programme_, currentUnit)) {
-                $odv = odv();
-                $ldf = ldf();
-                $pg = cree_n_prog($odv, $ldf);
+        $odv = odv();
+        $ldf = ldf();
+        $pg = cree_n_prog($odv, $ldf);
 		closeXML(__func__);
 		return $pg;	
 	}
 	error();
-	closeXML(__func__);
 }
 
 n_l_dec *odv (void) {
@@ -190,9 +190,9 @@ n_l_dec *ldv (void) {
 	n_dec *$dv = NULL;
 	openXML(__func__);
 	if (est_premier(_declarationVariable_, currentUnit)) {
-                $dv = dv();
-                $ldvb = ldvb();
-                $ldv = cree_n_l_dec($dv, $ldvb);
+        $dv = dv();
+        $ldvb = ldvb();
+        $ldv = cree_n_l_dec($dv, $ldvb);
 		closeXML(__func__);
 		return $ldv;
 	}
@@ -207,9 +207,9 @@ n_l_dec * ldvb (void) {
 	n_dec *$dv = NULL;
 	openXML(__func__);
 	if (checkToken(VIRGULE)) {
-                $dv = dv();
-                $ldvb2 = ldvb();
-                $ldvb = cree_n_l_dec($dv, $ldvb2);
+        $dv = dv();
+        $ldvb2 = ldvb();
+        $ldvb = cree_n_l_dec($dv, $ldvb2);
 		closeXML(__func__);
 		return $ldvb;
 	}
