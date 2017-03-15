@@ -12,11 +12,11 @@ char currentUnit;
 /**
  * Name of current token if needed to be displayed.
  */
-char *nomToken;
+char nomToken[512];
 /**
  * Value of current token if needed to be displayed.
  */
-char *valeur;
+char valeur[1024];
 
 /**
  * Current indentation level.
@@ -40,10 +40,8 @@ void DisplayIndent(void) {
  */
 void openXML(const char *tagName) {
 	if (!DEBUG) return;
-	printf("patate");
 	DisplayIndent();
 	printf("<%s>\n", tagName);
-	printf("patate2");
 	currentIndent += NB_SPACE_PER_INDENT;
 	
 }
@@ -225,9 +223,8 @@ n_dec *dv(void) {
 		
 		if (checkToken(ID_VAR)) {
 			
-			char *nom;
+			char *nom = malloc(1024 * sizeof(char));
 			strcpy(nom, valeur);
-			printf("%s", nom);
 			$ott = ott();
 			if ($ott < 0)
 				$dv = cree_n_dec_var(nom);
@@ -294,10 +291,13 @@ n_dec *df(void) {
 	openXML(__func__);
 	if (checkToken(ID_FCT)) {
 
+		char *nom = malloc(1024 * sizeof(char));
+		strcpy(nom, valeur);
+		
 		$lp = lp();
 		$odv = odv();
 		$ib = ib();
-		$df = cree_n_dec_fonc(valeur, $lp, $odv, $ib);
+		$df = cree_n_dec_fonc(nom, $lp, $odv, $ib);
 		closeXML(__func__);
 		return $df;
 	}
@@ -926,7 +926,7 @@ n_var *var(void) {
 	openXML(__func__);
 	if (checkToken(ID_VAR)) {
 
-		char *nom;
+		char *nom = malloc(1024 * sizeof(char));
 		strcpy(nom, valeur);
 		$oind = oind();
 		
@@ -972,15 +972,15 @@ n_appel *appf(void) {
 	n_l_exp *$lexp = NULL;
 	openXML(__func__);
 	if (checkToken(ID_FCT)) {
+		char *nom = malloc(1024 * sizeof(char));
+		strcpy(nom, valeur);
 
 		if (checkToken(PARENTHESE_OUVRANTE)) {
 
-			char *fonction;
-			strcpy(fonction, valeur);
 			$lexp = lexp();
 			if (checkToken(PARENTHESE_FERMANTE)) {
 				
-				$appf = cree_n_appel(fonction, $lexp);
+				$appf = cree_n_appel(nom, $lexp);
 				closeXML(__func__);
 				return $appf;
 			}

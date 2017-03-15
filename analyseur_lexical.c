@@ -15,13 +15,13 @@
 extern FILE *yyin;
 
 char *tableMotsClefs[] = {
-    "si", "alors", "sinon", "tantque", "faire", "entier",
-    "retour", "lire", "ecrire"
+	"si", "alors", "sinon", "tantque", "faire", "entier",
+	"retour", "lire", "ecrire"
 };
 
 int codeMotClefs[] = {
-    SI, ALORS, SINON, TANTQUE, FAIRE, ENTIER,
-    RETOUR, LIRE, ECRIRE
+	SI, ALORS, SINON, TANTQUE, FAIRE, ENTIER,
+	RETOUR, LIRE, ECRIRE
 };
 
 char yytext[YYTEXT_MAX];
@@ -35,42 +35,42 @@ int nb_ligne = 1;
  * Renvoie -1 si arrivé à la fin du fichier, 0 si tout va bien 
  ******************************************************************************/
 int mangeEspaces() {
-    char c = fgetc(yyin);
-    int comment = 0;
-    while (comment || (c == ' ') || (c == '\n') || (c == '\t') || (c == '#')) {
-        if (c == '#') {
-            comment = 1;
-        }
-        if (c == '\n') {
-            nb_ligne++;
-            comment = 0;
-        }
-        c = fgetc(yyin);
-    }
-    if (feof(yyin)) {
-        return -1;
-    }
-    ungetc(c, yyin);
-    return 0;
+	char c = fgetc(yyin);
+	int comment = 0;
+	while (comment || (c == ' ') || (c == '\n') || (c == '\t') || (c == '#')) {
+		if (c == '#') {
+			comment = 1;
+		}
+		if (c == '\n') {
+			nb_ligne++;
+			comment = 0;
+		}
+		c = fgetc(yyin);
+	}
+	if (feof(yyin)) {
+		return -1;
+	}
+	ungetc(c, yyin);
+	return 0;
 }
 
 /*******************************************************************************
  * Lit un caractère et le stocke dans le buffer yytext 
  ******************************************************************************/
 char lireCar(void) {
-    yytext[yyleng++] = fgetc(yyin);
-    yytext[yyleng] = '\0';
-    return yytext[yyleng - 1];
+	yytext[yyleng++] = fgetc(yyin);
+	yytext[yyleng] = '\0';
+	return yytext[yyleng - 1];
 }
 
 /*******************************************************************************
  * Remet le dernier caractère lu au buffer clavier et enlève du buffer yytext 
  ******************************************************************************/
 void delireCar() {
-    char c;
-    c = yytext[yyleng - 1];
-    yytext[--yyleng] = '\0';
-    ungetc(c, yyin);
+	char c;
+	c = yytext[yyleng - 1];
+	yytext[--yyleng] = '\0';
+	ungetc(c, yyin);
 }
 
 /*******************************************************************************
@@ -81,64 +81,64 @@ void delireCar() {
  * dans l'analyseur syntaxique.
  ******************************************************************************/
 int yylex(void) {
-    char c;
-    yytext[yyleng = 0] = '\0';
-    
-    // Enleve les escpaces et verifie si fin de fichier
-    if (mangeEspaces() == -1) return FIN;
-    c = lireCar();
+	char c;
+	yytext[yyleng = 0] = '\0';
 
-    // mot cles en un charactere
-    if (c == ';') return POINT_VIRGULE;
-    else if (c == '+') return PLUS;
-    else if (c == '-') return MOINS;
-    else if (c == '*') return FOIS;
-    else if (c == '/') return DIVISE;
-    else if (c == '(') return PARENTHESE_OUVRANTE;
-    else if (c == ')') return PARENTHESE_FERMANTE;
-    else if (c == '[') return CROCHET_OUVRANT;
-    else if (c == ']') return CROCHET_FERMANT;
-    else if (c == '{') return ACCOLADE_OUVRANTE;
-    else if (c == '}') return ACCOLADE_FERMANTE;
-    else if (c == '=') return EGAL;
-    else if (c == '<') return INFERIEUR;
-    else if (c == '&') return ET;
-    else if (c == '|') return OU;
-    else if (c == ',') return VIRGULE;
-    else if (c == '!') return NON;
+	// Enleve les escpaces et verifie si fin de fichier
+	if (mangeEspaces() == -1) return FIN;
+	c = lireCar();
 
-    // Variable
-    else if (c == '$') {
-        c = lireCar();
-        while (is_alphanum(c)) {
-            c = lireCar();
-        }
-        delireCar();
-        return ID_VAR;
-    }
-    // Nombre
-    else if (is_num(c)) {
-        c = lireCar();
-        while (is_num(c)) {
-            c = lireCar();
-        }
-        delireCar();
-        return NOMBRE;
-    }
+	// mot cles en un charactere
+	if (c == ';') return POINT_VIRGULE;
+	else if (c == '+') return PLUS;
+	else if (c == '-') return MOINS;
+	else if (c == '*') return FOIS;
+	else if (c == '/') return DIVISE;
+	else if (c == '(') return PARENTHESE_OUVRANTE;
+	else if (c == ')') return PARENTHESE_FERMANTE;
+	else if (c == '[') return CROCHET_OUVRANT;
+	else if (c == ']') return CROCHET_FERMANT;
+	else if (c == '{') return ACCOLADE_OUVRANTE;
+	else if (c == '}') return ACCOLADE_FERMANTE;
+	else if (c == '=') return EGAL;
+	else if (c == '<') return INFERIEUR;
+	else if (c == '&') return ET;
+	else if (c == '|') return OU;
+	else if (c == ',') return VIRGULE;
+	else if (c == '!') return NON;
 
-    // A partir d'ici, on sait que c'est un mot. Donc on le lit en entier (il est stocke dans yytext).
-    while (is_alpha(c)) {
-        c = lireCar();
-    }
+		// Variable
+	else if (c == '$') {
+		c = lireCar();
+		while (is_alphanum(c)) {
+			c = lireCar();
+		}
+		delireCar();
+		return ID_VAR;
+	}
+		// Nombre
+	else if (is_num(c)) {
+		c = lireCar();
+		while (is_num(c)) {
+			c = lireCar();
+		}
+		delireCar();
+		return NOMBRE;
+	}
 
-    int j;
-    delireCar();
-    // Si le mot corresponod a un mot clef connus.
-    for (j = 0; j < nbMotsClefs; ++j)
-        if (strcmp(yytext, tableMotsClefs[j]) == 0) return codeMotClefs[j];
+	// A partir d'ici, on sait que c'est un mot. Donc on le lit en entier (il est stocke dans yytext).
+	while (is_alpha(c)) {
+		c = lireCar();
+	}
 
-    // Si ce n'est pas tout ça, alors c'est une declaration de fonction
-    return ID_FCT;
+	int j;
+	delireCar();
+	// Si le mot corresponod a un mot clef connus.
+	for (j = 0; j < nbMotsClefs; ++j)
+		if (strcmp(yytext, tableMotsClefs[j]) == 0) return codeMotClefs[j];
+
+	// Si ce n'est pas tout ça, alors c'est une declaration de fonction
+	return ID_FCT;
 }
 
 /*******************************************************************************
@@ -146,46 +146,49 @@ int yylex(void) {
  * afficher des messages d'erreur et l'arbre XML 
  ******************************************************************************/
 void nom_token(int token, char *nom, char *valeur) {
-    int i;
+	int i;
 
-    strcpy(nom, "symbole");
-    if (token == POINT_VIRGULE) strcpy(valeur, "POINT_VIRGULE");
-    else if (token == PLUS) strcpy(valeur, "PLUS");
-    else if (token == MOINS) strcpy(valeur, "MOINS");
-    else if (token == FOIS) strcpy(valeur, "FOIS");
-    else if (token == DIVISE) strcpy(valeur, "DIVISE");
-    else if (token == PARENTHESE_OUVRANTE) strcpy(valeur, "PARENTHESE_OUVRANTE");
-    else if (token == PARENTHESE_FERMANTE) strcpy(valeur, "PARENTHESE_FERMANTE");
-    else if (token == CROCHET_OUVRANT) strcpy(valeur, "CROCHET_OUVRANT");
-    else if (token == CROCHET_FERMANT) strcpy(valeur, "CROCHET_FERMANT");
-    else if (token == ACCOLADE_OUVRANTE) strcpy(valeur, "ACCOLADE_OUVRANTE");
-    else if (token == ACCOLADE_FERMANTE) strcpy(valeur, "ACCOLADE_FERMANTE");
-    else if (token == EGAL) strcpy(valeur, "EGAL");
-    else if (token == INFERIEUR) strcpy(valeur, "INFERIEUR");
-    else if (token == ET) strcpy(valeur, "ET");
-    else if (token == OU) strcpy(valeur, "OU");
-    else if (token == NON) strcpy(valeur, "NON");
-    else if (token == FIN) strcpy(valeur, "FIN");
-    else if (token == VIRGULE) strcpy(valeur, "VIRGULE");
+	strcpy(nom, "symbole");
+	if (token == POINT_VIRGULE) strcpy(valeur, "POINT_VIRGULE");
+	else if (token == PLUS) strcpy(valeur, "PLUS");
+	else if (token == MOINS) strcpy(valeur, "MOINS");
+	else if (token == FOIS) strcpy(valeur, "FOIS");
+	else if (token == DIVISE) strcpy(valeur, "DIVISE");
+	else if (token == PARENTHESE_OUVRANTE) strcpy(valeur, "PARENTHESE_OUVRANTE");
+	else if (token == PARENTHESE_FERMANTE) strcpy(valeur, "PARENTHESE_FERMANTE");
+	else if (token == CROCHET_OUVRANT) strcpy(valeur, "CROCHET_OUVRANT");
+	else if (token == CROCHET_FERMANT) strcpy(valeur, "CROCHET_FERMANT");
+	else if (token == ACCOLADE_OUVRANTE) strcpy(valeur, "ACCOLADE_OUVRANTE");
+	else if (token == ACCOLADE_FERMANTE) strcpy(valeur, "ACCOLADE_FERMANTE");
+	else if (token == EGAL) strcpy(valeur, "EGAL");
+	else if (token == INFERIEUR) strcpy(valeur, "INFERIEUR");
+	else if (token == ET) strcpy(valeur, "ET");
+	else if (token == OU) strcpy(valeur, "OU");
+	else if (token == NON) strcpy(valeur, "NON");
+	else if (token == FIN) strcpy(valeur, "FIN");
+	else if (token == VIRGULE) strcpy(valeur, "VIRGULE");
 
-    else if (token == ID_VAR) {
-        strcpy(nom, "id_variable");
-        strcpy(valeur, yytext);
-    } else if (token == ID_FCT) {
-        strcpy(nom, "id_fonction");
-        strcpy(valeur, yytext);
-    } else if (token == NOMBRE) {
-        strcpy(nom, "nombre");
-        strcpy(valeur, yytext);
-    } else {
-        strcpy(nom, "mot_clef");
-        for (i = 0; i < nbMotsClefs; i++) {
-            if (token == codeMotClefs[i]) {
-                strcpy(valeur, tableMotsClefs[i]);
-                break;
-            }
-        }
-    }
+	else if (token == ID_VAR) {
+		strcpy(nom, "id_variable");
+		strcpy(valeur, yytext);
+	}
+	else if (token == ID_FCT) {
+		strcpy(nom, "id_fonction");
+		strcpy(valeur, yytext);
+	}
+	else if (token == NOMBRE) {
+		strcpy(nom, "nombre");
+		strcpy(valeur, yytext);
+	}
+	else {
+		strcpy(nom, "mot_clef");
+		for (i = 0; i < nbMotsClefs; i++) {
+			if (token == codeMotClefs[i]) {
+				strcpy(valeur, tableMotsClefs[i]);
+				break;
+			}
+		}
+	}
 }
 
 /*******************************************************************************
@@ -194,12 +197,12 @@ void nom_token(int token, char *nom, char *valeur) {
  ******************************************************************************/
 
 void test_yylex_internal(FILE *yyin) {
-    int uniteCourante;
-    char nom[100];
-    char valeur[100];
-    do {
-        uniteCourante = yylex();
-        nom_token(uniteCourante, nom, valeur);
-        printf("%s\t%s\t%s\n", yytext, nom, valeur);
-    } while (uniteCourante != FIN);
+	int uniteCourante;
+	char nom[100];
+	char valeur[100];
+	do {
+		uniteCourante = yylex();
+		nom_token(uniteCourante, nom, valeur);
+		printf("%s\t%s\t%s\n", yytext, nom, valeur);
+	} while (uniteCourante != FIN);
 }

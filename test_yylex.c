@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
 		initialise_premiers();
 		initialise_suivants();
 		n_prog *prog = analyse();
-		//affiche_n_prog(prog);
+		affiche_n_prog(prog);
 	}	
 	return 0;
 }
