@@ -3,6 +3,7 @@
 #include "analyseur_lexical.h"
 #include "analyseur_syntaxique.h"
 #include "symboles.h"
+#include "affiche_arbre_abstrait.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,7 +40,8 @@ int main(int argc, char **argv) {
 	if (analyseSynt) {
 		initialise_premiers();
 		initialise_suivants();
-		analyse();
+		n_prog *prog = analyse();
+		//affiche_n_prog(prog);
 	}	
 	return 0;
 }
