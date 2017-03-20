@@ -4,15 +4,25 @@
 #include "analyseur_syntaxique.h"
 #include "symboles.h"
 #include "affiche_arbre_abstrait.h"
+#include "analyseur_semantique.h"
+#include "tabsymboles.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 char yytext[100];
-FILE *yyin;
+FILE *yyin = NULL;
 int analyseLex = 0;
 int analyseSynt = 0;
+int analyseSem = 0;
+
+int mainError() {
+	fprintf(stderr, "main error\n");
+	if (yyin != NULL)
+		free(yyin);
+	return 0;
+}
 
 int main(int argc, char **argv) {
 
@@ -26,22 +36,37 @@ int main(int argc, char **argv) {
 			analyseSynt = 1;
 			continue;
 		}
+		if (strcmp(argv[i], "-S") == 0) {
+			analyseSem = 1;
+			continue;
+		}
 		yyin = fopen(argv[i], "r");
 		if (yyin == NULL) {
 			fprintf(stderr, "impossible d'ouvrir le fichier %s\n", argv[i]);
-			exit(EXIT_FAILURE);
+			return 0;
 		}
 	}
 
-	
+	int res = 1;
 	if (analyseLex) {
 		test_yylex_internal(yyin);
 	}
+	n_prog *prog;
 	if (analyseSynt) {
 		initialise_premiers();
 		initialise_suivants();
-		n_prog *prog = analyse();
+		prog = analyse();
 		affiche_n_prog(prog);
-	}	
-	return 0;
+	}
+	if(analyseSem) {
+		if (!analyseSynt) {
+			fprintf(stderr, "In order to run the semantic analyse, you must run syntaxic analyse first\n");
+			res = mainError();
+		}
+		analyseSemantique(prog);
+		afficheTabsymboles();
+	}
+	if (yyin != NULL)
+		free(yyin);
+	return res;
 }

@@ -4,6 +4,9 @@
 #include "tabsymboles.h"
 #include "syntabs.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 void analyseSemantique(n_prog *pg);
 
 #endif

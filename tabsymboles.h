@@ -1,8 +1,6 @@
 #ifndef __TABSYMBOLES__
 #define __TABSYMBOLES__
 
-#include "tabsymboles.h"
-
 // Nombre maximum d'identificateurs (globaux + locaux dans 1 fonction)
 #define MAX_IDENTIF 1000
 

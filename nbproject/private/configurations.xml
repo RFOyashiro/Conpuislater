@@ -19,8 +19,12 @@
         <in>util.c</in>
         <in>util.h</in>
       </df>
+      <in>affiche_arbre_abstrait.c</in>
+      <in>affiche_arbre_abstrait.h</in>
       <in>analyseur_lexical.c</in>
       <in>analyseur_lexical.h</in>
+      <in>analyseur_semantique.c</in>
+      <in>analyseur_semantique.h</in>
       <in>analyseur_syntaxique.c</in>
       <in>analyseur_syntaxique.h</in>
       <in>analyseur_xml.c</in>
@@ -31,6 +35,10 @@
       <in>suivants.c</in>
       <in>suivants.h</in>
       <in>symboles.h</in>
+      <in>syntabs.c</in>
+      <in>syntabs.h</in>
+      <in>tabsymboles.c</in>
+      <in>tabsymboles.h</in>
       <in>test_yylex.c</in>
       <in>util.c</in>
       <in>util.h</in>

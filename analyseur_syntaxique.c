@@ -99,6 +99,8 @@ char * getTokenTag(int token) {
 			return "id_fonction";
 		case NOMBRE:
 			return "nombre";
+		default:
+			return NULL;
 	}
 }
 
@@ -153,6 +155,7 @@ n_prog *pg(void) {
 		return $pg;
 	}
 	error();
+	return NULL;
 }
 
 n_l_dec *odv(void) {
@@ -171,7 +174,7 @@ n_l_dec *odv(void) {
 		return NULL;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_l_dec *ldv(void) {
@@ -188,7 +191,7 @@ n_l_dec *ldv(void) {
 		return $ldv;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_l_dec * ldvb(void) {
@@ -209,7 +212,7 @@ n_l_dec * ldvb(void) {
 		return NULL;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_dec *dv(void) {
@@ -235,7 +238,7 @@ n_dec *dv(void) {
 		}
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 int ott(void) {
@@ -245,9 +248,9 @@ int ott(void) {
 	if (checkToken(CROCHET_OUVRANT)) {
 
 		if (checkToken(NOMBRE)) {
-
+			$ott = atoi(valeur);
+			
 			if (checkToken(CROCHET_FERMANT)) {
-				$ott = atoi(valeur);
 				closeXML(__func__);
 				return $ott;
 			}
@@ -258,7 +261,7 @@ int ott(void) {
 		return -1;
 	}
 	error();
-	closeXML(__func__);
+	return -1;
 }
 
 n_l_dec *ldf(void) {
@@ -279,7 +282,7 @@ n_l_dec *ldf(void) {
 		return NULL;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_dec *df(void) {
@@ -302,7 +305,7 @@ n_dec *df(void) {
 		return $df;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_l_dec *lp(void) {
@@ -319,7 +322,7 @@ n_l_dec *lp(void) {
 		}
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_l_dec *oldv(void) {
@@ -335,8 +338,8 @@ n_l_dec *oldv(void) {
 		closeXML(__func__);
 		return NULL;
 	}
-	closeXML(__func__);
 	error();
+	return NULL;
 }
 
 n_instr *i(void) {
@@ -389,7 +392,7 @@ n_instr *i(void) {
 		return $i;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_instr *iaff(void) {
@@ -412,7 +415,7 @@ n_instr *iaff(void) {
 		}
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_instr *ib(void) {
@@ -431,7 +434,7 @@ n_instr *ib(void) {
 		}
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_l_instr *li(void) {
@@ -453,7 +456,7 @@ n_l_instr *li(void) {
 		return NULL;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_instr *isi(void) {
@@ -477,7 +480,7 @@ n_instr *isi(void) {
 		}
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_instr *osinon(void) {
@@ -495,7 +498,7 @@ n_instr *osinon(void) {
 		return NULL;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_instr *itq(void) {
@@ -518,7 +521,7 @@ n_instr *itq(void) {
 	}
 
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_instr *ift(void) {
@@ -541,7 +544,7 @@ n_instr *ift(void) {
 		}
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_instr *iapp(void) {
@@ -559,7 +562,7 @@ n_instr *iapp(void) {
 		}
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_instr *iret(void) {
@@ -578,7 +581,7 @@ n_instr *iret(void) {
 		}
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_instr *iecr(void) {
@@ -603,7 +606,7 @@ n_instr *iecr(void) {
 		}
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_instr *ivide(void) {
@@ -617,7 +620,7 @@ n_instr *ivide(void) {
 		return $ivide;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_exp *exp(void) {
@@ -634,7 +637,7 @@ n_exp *exp(void) {
 		return $exp;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_exp *expb(n_exp *herit) {
@@ -657,7 +660,7 @@ n_exp *expb(n_exp *herit) {
 		return $expb;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_exp *conj(void) {
@@ -674,7 +677,7 @@ n_exp *conj(void) {
 		return $conj;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_exp *conjb(n_exp* herit) {
@@ -697,7 +700,7 @@ n_exp *conjb(n_exp* herit) {
 		return $conjb;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_exp *comp(void) {
@@ -713,7 +716,7 @@ n_exp *comp(void) {
 		return $comp;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_exp *compb(n_exp *herit) {
@@ -745,7 +748,7 @@ n_exp *compb(n_exp *herit) {
 	}
 
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_exp *e(void) {
@@ -762,7 +765,7 @@ n_exp *e(void) {
 		return $e;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_exp *eb(n_exp *herit) {
@@ -794,7 +797,7 @@ n_exp *eb(n_exp *herit) {
 		return $eb;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_exp *t(void) {
@@ -811,7 +814,7 @@ n_exp *t(void) {
 		return $t;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_exp *tb(n_exp *herit) {
@@ -843,7 +846,7 @@ n_exp *tb(n_exp *herit) {
 		return $tb;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_exp *neg(void) {
@@ -866,7 +869,7 @@ n_exp *neg(void) {
 		return $neg;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_exp *f(void) {
@@ -916,7 +919,7 @@ n_exp *f(void) {
 		return $f;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_var *var(void) {
@@ -940,7 +943,7 @@ n_var *var(void) {
 		return $var;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_exp *oind(void) {
@@ -963,7 +966,7 @@ n_exp *oind(void) {
 		return NULL;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_appel *appf(void) {
@@ -992,7 +995,7 @@ n_appel *appf(void) {
 		return NULL;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_l_exp *lexp(void) {
@@ -1013,7 +1016,7 @@ n_l_exp *lexp(void) {
 		return NULL;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 n_l_exp *lexpb(void) {
@@ -1035,7 +1038,7 @@ n_l_exp *lexpb(void) {
 		return NULL;
 	}
 	error();
-	closeXML(__func__);
+	return NULL;
 }
 
 /**
@@ -1049,6 +1052,7 @@ n_prog *analyse(void) {
 
 	if (currentUnit != FIN) {
 		error();
+		return NULL;
 	}
 	else {
 		return prog;
