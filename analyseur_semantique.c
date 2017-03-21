@@ -9,6 +9,7 @@ void parcours_instr_affect(n_instr *n);
 void parcours_instr_appel(n_instr *n);
 void parcours_instr_retour(n_instr *n);
 void parcours_instr_ecrire(n_instr *n);
+void parcours_instr_(n_instr *n);
 void parcours_l_exp(n_l_exp *n);
 void parcours_exp(n_exp *n);
 void parcours_varExp(n_exp *n);
@@ -31,6 +32,12 @@ int currentGlobalAdr = 0;
 void failSemCompil() {
 	fprintf(stderr, "Fail to compile semantic part\n");
 	exit(EXIT_FAILURE);
+}
+
+int nbLabel = 0;
+
+void generateLabel() {
+	printf ("%d\n", nbLabel);
 }
 
 void parcours_n_prog(n_prog *n) {
@@ -88,6 +95,17 @@ void parcours_instr_affect(n_instr *n) {
 
 	parcours_var(n->u.affecte_.var);
 	parcours_exp(n->u.affecte_.exp);
+	
+	int i = rechercheExecutable(n->u.affecte_.var->nom);
+	desc_identif var = tabsymboles.tab[i];
+	if (var.type == T_ENTIER) {
+		printf("pop ebx\n");
+		printf("mov [%s], ebx\n", var.identif);
+	}
+	else {
+		//Calcule adresse tableau
+		//printf("mov [%s], %d\n", var.identif, exp);
+	}
 }
 
 /*-------------------------------------------------------------------------*/
@@ -135,7 +153,12 @@ void parcours_instr_retour(n_instr *n) {
 /*-------------------------------------------------------------------------*/
 
 void parcours_instr_ecrire(n_instr *n) {
+	
 	parcours_exp(n->u.ecrire_.expression);
+	
+	printf("pop eax\n");
+	printf("call iprintLF\n");
+	
 }
 
 /*-------------------------------------------------------------------------*/
@@ -163,6 +186,7 @@ void parcours_exp(n_exp *n) {
 
 void parcours_varExp(n_exp *n) {
 	parcours_var(n->u.var);
+	printf("push [%s]\n", n->u.var->nom);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -184,24 +208,69 @@ void parcours_opExp(n_exp *n) {
 	}
 	if (n->u.opExp_.op2 != NULL) {
 		parcours_exp(n->u.opExp_.op2);
+		printf("pop ebx\n");
 	}
+	printf("pop eax\n");
+	switch(n->u.opExp_.op) {
+		case plus:
+			printf("add eax, ebx\n");
+			break;
+		case fois:
+			printf("mul eax, ebx\n");
+			break;
+		case moins:
+			printf("sub eax, ebx\n");
+			break;
+		case divise:
+			printf("mov edx, 0\n");
+			printf("div eax, ebx\n");
+			break;
+		case inf:
+			printf("cmp eax, ebx\n");
+			printf("jl ");
+			generateLabel();
+			printf("mov eax, 0\n");
+			generateLabel();
+			nbLabel++;
+			printf(":mov eax, 1\n");
+			break;
+		case et:
+			printf("and eax\n");
+			break;
+		case ou:
+			printf("or eax\n");
+		case egal:
+			printf("cmp eax, ebx\n");
+			printf("je ");
+			generateLabel();
+			printf("mov eax, 0\n");
+			generateLabel();
+			nbLabel++;
+			printf(":mov eax, 1\n");
+			break;
+	}
+	printf("push eax\n");
 }
 
 /*-------------------------------------------------------------------------*/
 
 void parcours_intExp(n_exp *n) {
-	// It's just an integer
+	printf("push %d", n->u.entier);
 }
 
 /*-------------------------------------------------------------------------*/
 void parcours_lireExp(n_exp *n) {
-	// Nothing to do, there are no arguments.
+	printf("call readline\n");
+	printf("mov eax, sinput\n");
+	printf("call atoi\n");
+	printf("push eax\n");
 }
 
 /*-------------------------------------------------------------------------*/
 
 void parcours_appelExp(n_exp *n) {
 	parcours_appel(n->u.appel);
+	printf("call %s\n", n->u.appel->fonction);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -253,6 +322,7 @@ void parcours_foncDec(n_dec *n) {
 			0, params);
 
 	currentGlobalAdr = adresseLocaleCourante;
+	adresseLocaleCourante = 0;
 
 	entreeFonction();
 	int porteeBackUp = portee;
@@ -260,9 +330,16 @@ void parcours_foncDec(n_dec *n) {
 	portee = P_ARGUMENT;
 	parcours_l_dec(n->u.foncDec_.param);
 	portee = porteeBackUp;
+	
+	adresseLocaleCourante = 0;
+	currentGlobalAdr = adresseLocaleCourante;
 
 	parcours_l_dec(n->u.foncDec_.variables);
 	parcours_instr(n->u.foncDec_.corps);
+
+	if (DEBUG_SEM) {
+		afficheTabsymboles();
+	}
 
 	sortieFonction();
 	adresseLocaleCourante = currentGlobalAdr;
@@ -277,6 +354,10 @@ void parcours_varDec(n_dec *n) {
 	}
 	ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseLocaleCourante, 0);
 	adresseLocaleCourante += 4;
+	
+	if (portee == P_VARIABLE_GLOBALE) {
+		printf("%s resw 1\n", n->nom);
+	}
 }
 
 /*-------------------------------------------------------------------------*/
@@ -293,8 +374,9 @@ void parcours_tabDec(n_dec *n) {
 		fprintf(stderr, "Array %s is already declared\n", n->nom);
 		failSemCompil();
 	} 
-	ajouteIdentificateur(n->nom, portee, T_TABLEAU_ENTIER, adresseLocaleCourante++,
+	ajouteIdentificateur(n->nom, portee, T_TABLEAU_ENTIER, adresseLocaleCourante,
 			n->u.tabDec_.taille);
+	adresseLocaleCourante += 4;
 }
 
 /*-------------------------------------------------------------------------*/

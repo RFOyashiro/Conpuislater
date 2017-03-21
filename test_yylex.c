@@ -11,6 +11,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define DEBUG_ABSTR 0
+
 char yytext[100];
 FILE *yyin = NULL;
 int analyseLex = 0;
@@ -56,7 +58,8 @@ int main(int argc, char **argv) {
 		initialise_premiers();
 		initialise_suivants();
 		prog = analyse();
-		affiche_n_prog(prog);
+		if (DEBUG_ABSTR)
+			affiche_n_prog(prog);
 	}
 	if(analyseSem) {
 		if (!analyseSynt) {
@@ -64,7 +67,6 @@ int main(int argc, char **argv) {
 			res = mainError();
 		}
 		analyseSemantique(prog);
-		afficheTabsymboles();
 	}
 	if (yyin != NULL)
 		free(yyin);

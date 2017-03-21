@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define DEBUG_SEM 0
+
 void analyseSemantique(n_prog *pg);
 
 #endif
