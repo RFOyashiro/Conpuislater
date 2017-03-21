@@ -43,6 +43,8 @@ void generateLabel() {
 void parcours_n_prog(n_prog *n) {
 
 	parcours_l_dec(n->variables);
+	//Tout Doux
+	printf("section .text\nglobal _start\n_start:\ncall main\nmov eax,1\nint 0x80\nmain:\n");
 	parcours_l_dec(n->fonctions);
 }
 
@@ -186,7 +188,7 @@ void parcours_exp(n_exp *n) {
 
 void parcours_varExp(n_exp *n) {
 	parcours_var(n->u.var);
-	printf("push [%s]\n", n->u.var->nom);
+	printf("push dword[%s]\n", n->u.var->nom);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -216,7 +218,7 @@ void parcours_opExp(n_exp *n) {
 			printf("add eax, ebx\n");
 			break;
 		case fois:
-			printf("mul eax, ebx\n");
+			printf("mul ebx\n");
 			break;
 		case moins:
 			printf("sub eax, ebx\n");
@@ -260,8 +262,8 @@ void parcours_intExp(n_exp *n) {
 
 /*-------------------------------------------------------------------------*/
 void parcours_lireExp(n_exp *n) {
-	printf("call readline\n");
 	printf("mov eax, sinput\n");
+	printf("call readline\n");
 	printf("call atoi\n");
 	printf("push eax\n");
 }
@@ -356,7 +358,7 @@ void parcours_varDec(n_dec *n) {
 	adresseLocaleCourante += 4;
 	
 	if (portee == P_VARIABLE_GLOBALE) {
-		printf("%s resw 1\n", n->nom);
+		printf("%s resd 1\n", n->nom);
 	}
 }
 
@@ -421,11 +423,17 @@ void parcours_var_indicee(n_var *n) {
 }
 
 void analyseSemantique(n_prog *pg) {
+	
+	printf("%%include \"io.asm\"\n");
+	printf("section .bss\n");
+	printf("sinput resb 255\n");
 	portee = P_VARIABLE_GLOBALE;
 	adresseLocaleCourante = 0;
 	adresseArgumentCourant = 0;
 	
 	parcours_n_prog(pg);
+	
+	printf("ret"); //Tout Doux : a faire dans main
 	
 	if (rechercheDeclarative("main") == -1) {
 		fprintf(stderr, "No main found\n");
