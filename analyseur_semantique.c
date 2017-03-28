@@ -205,7 +205,7 @@ void parcours_appel(n_appel *n) {
 	}
 	printf("sub esp, 4\n");
 	parcours_l_exp(n->args);
-	printf("call %s\n", n->fonction);
+	printf("call _FONC_%s\n", n->fonction);
 	int args = countCallArgs(n);
 	printf("add esp, %i\n", args * 4);
 }
@@ -435,9 +435,12 @@ void parcours_foncDec(n_dec *n) {
 		fprintf(stderr, "Function %s is already declared\n", n->nom);
 		failSemCompil();
 	}
-	int params = countParamDec(n->u.foncDec_.param);
+	int params = countParamDec(n->u.foncDec_.param);	
+	
 	ajouteIdentificateur(n->nom, portee, T_FONCTION,
 			0, params);
+	
+	indexCurrentFunc = rechercheDeclarative(n->nom);
 
 	currentGlobalAdr = adresseLocaleCourante;
 	adresseLocaleCourante = 0;
@@ -453,7 +456,7 @@ void parcours_foncDec(n_dec *n) {
 	currentGlobalAdr = adresseLocaleCourante;
 
 
-	printf("%s:\n", n->nom);
+	printf("_FONC_%s:\n", n->nom);
 	printf("push ebp\n");
 	printf("mov ebp, esp\n");
 
