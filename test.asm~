@@ -1,8 +1,7 @@
 %include "io.asm"
 section .bss
 sinput resb 255
-$a resw 1
-$b resw 1
+$a resd 1
 section .text
 global _start
 _start:
@@ -10,21 +9,14 @@ call main
 mov eax,1
 int 0x80
 main:
-mov eax, sinput
-call readline
-call atoi
-push eax
-pop ebx
-mov [$a], ebx
-push word[$a]
-push word[$a]
+push ebp
+mov ebp, esp
+push dword[$a]
+push 123
 pop ebx
 pop eax
-mul ebx
-push eax
-pop ebx
-mov [$b], ebx
-push word[$b]
+mov [$a], eax
+push dword[$a]
 pop eax
 call iprintLF
 ret

@@ -58,8 +58,8 @@ int main(int argc, char **argv) {
 		initialise_premiers();
 		initialise_suivants();
 		prog = analyse();
-		if (DEBUG_ABSTR)
-			affiche_n_prog(prog);
+		/*if (DEBUG_ABSTR)
+			affiche_n_prog(prog);*/
 	}
 	if(analyseSem) {
 		if (!analyseSynt) {

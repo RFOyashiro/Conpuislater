@@ -3,7 +3,7 @@
 // Number of sapce per indentation level.
 #define NB_SPACE_PER_INDENT 2
 // Display debug values if is 1.
-#define DEBUG 1
+#define DEBUG 0
 
 /**
  * Last value returned by lexical analyser.
@@ -39,9 +39,8 @@ void DisplayIndent(void) {
  * char * foncName Tag name
  */
 void openXML(const char *tagName) {
-	if (!DEBUG) return;
-	DisplayIndent();
-	printf("<%s>\n", tagName);
+	if (DEBUG) DisplayIndent();
+	if (DEBUG) printf("<%s>\n", tagName);
 	currentIndent += NB_SPACE_PER_INDENT;
 	
 }
@@ -52,10 +51,9 @@ void openXML(const char *tagName) {
  * char * foncName Tag name
  */
 void closeXML(const char *tagName) {
-	if (!DEBUG) return;
 	currentIndent -= NB_SPACE_PER_INDENT;
-	DisplayIndent();
-	printf("</%s>\n", tagName);
+	if (DEBUG) DisplayIndent();
+	if (DEBUG) printf("</%s>\n", tagName);
 }
 
 /**
@@ -63,7 +61,6 @@ void closeXML(const char *tagName) {
  * Get the tag corresponding to the token (terminal symbol only)
  */
 char * getTokenTag(int token) {
-	if (!DEBUG) return NULL;
 	switch (token) {
 		case ENTIER:
 		case SI:
@@ -109,11 +106,11 @@ char * getTokenTag(int token) {
  * Display the token value with indentation.
  */
 void putToken(int token) {
-	if (!DEBUG) return;
+
 	nom_token(token, nomToken, valeur);
-	DisplayIndent();
+	if (DEBUG) DisplayIndent();
 	char * tag = getTokenTag(token);
-	printf("<%s>%s</%s>\n", tag, valeur, tag);
+	if (DEBUG) printf("<%s>%s</%s>\n", tag, valeur, tag);
 }
 
 /**
