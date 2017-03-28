@@ -465,7 +465,7 @@ void parcours_foncDec(n_dec *n) {
 	}
 	
 	// For the main we need to add a ret instr
-	if (strcmp(tabsymboles.tab[indexCurrentFunc].identif, "main") == 0) {
+	if (strcmp(n->nom, "main") == 0) {
 		printf("pop ebp\n");
 		printf("ret\n");
 	}
