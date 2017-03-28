@@ -548,8 +548,7 @@ void parcours_var_simple(n_var *n) {
 	}
 	else if (tabsymboles.tab[i].portee == P_ARGUMENT) {
 		int nbArgs = tabsymboles.tab[indexCurrentFunc].complement;
-		printf("mov eax, [ebp + %i] #%d, %d\n", 
-				(4 + 4 * nbArgs - tabsymboles.tab[i].adresse), nbArgs, tabsymboles.tab[i].adresse);
+		printf("mov eax, [ebp + %i]\n", (4 + 4 * nbArgs - tabsymboles.tab[i].adresse));
 		printf("push eax\n");
 	}
 	else {
