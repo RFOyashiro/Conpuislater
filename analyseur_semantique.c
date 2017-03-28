@@ -48,7 +48,7 @@ void parcours_n_prog(n_prog *n) {
 	printf("section .text\n");
 	printf("global _start\n");
 	printf("_start:\n");
-	printf("call main\n");
+	printf("call _FONC_main\n");
 	printf("mov eax,1\n");
 	printf("int 0x80\n");
 	parcours_l_dec(n->fonctions);
