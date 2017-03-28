@@ -45,7 +45,13 @@ void parcours_n_prog(n_prog *n) {
 
 	parcours_l_dec(n->variables);
 	//Tout Doux ?
-	printf("section .text\nglobal _start\n_start:\ncall main\nmov eax,1\nint 0x80\n");
+	printf("section .text\n");
+	printf("global _start\n");
+	printf("_start:\n");
+	printf("call main\n");
+	printf("pop ebp\n");
+	printf("mov eax,1\n");
+	printf("int 0x80\n");
 	parcours_l_dec(n->fonctions);
 }
 
@@ -216,6 +222,10 @@ void parcours_instr_retour(n_instr *n) {
 	printf("pop eax\n");
 	printf("mov [ebp + %i], eax\n", 8 + (params * 4));
 	printf("add esp, %i\n", adresseLocaleCourante);
+	printf("pop ebp\n");
+	if (strcmp(tabsymboles.tab[indexCurrentFunc].identif, "main") != 0) {
+		printf("ret\n");
+	}
 }
 
 /*-------------------------------------------------------------------------*/
@@ -457,8 +467,6 @@ void parcours_foncDec(n_dec *n) {
 		afficheTabsymboles();
 	}
 
-	printf("pop ebp\n");
-	printf("ret\n");
 	sortieFonction();
 	adresseLocaleCourante = currentGlobalAdr;
 }
@@ -534,7 +542,8 @@ void parcours_var_simple(n_var *n) {
 	}
 	else if (tabsymboles.tab[i].portee == P_ARGUMENT) {
 		int nbArgs = tabsymboles.tab[indexCurrentFunc].complement;
-		printf("mov eax, [ebp + %i]\n", (4 + 4 * nbArgs - tabsymboles.tab[i].adresse));
+		printf("mov eax, [ebp + %i] #%d, %d\n", 
+				(4 + 4 * nbArgs - tabsymboles.tab[i].adresse), nbArgs, tabsymboles.tab[i].adresse);
 		printf("push eax\n");
 	}
 	else {
