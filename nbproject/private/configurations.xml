@@ -30,6 +30,7 @@
       <in>analyseur_xml.c</in>
       <in>analyseur_xml.h</in>
       <in>compare_arbres_xml.c</in>
+      <in>io.asm</in>
       <in>premiers.c</in>
       <in>premiers.h</in>
       <in>suivants.c</in>
@@ -39,6 +40,8 @@
       <in>syntabs.h</in>
       <in>tabsymboles.c</in>
       <in>tabsymboles.h</in>
+      <in>test.asm</in>
+      <in>test2.asm</in>
       <in>test_yylex.c</in>
       <in>util.c</in>
       <in>util.h</in>

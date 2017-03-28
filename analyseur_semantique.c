@@ -38,7 +38,7 @@ void failSemCompil() {
 int nbLabel = 0;
 
 void generateLabel() {
-	printf ("L%d", nbLabel);
+	printf("L%d", nbLabel);
 }
 
 void parcours_n_prog(n_prog *n) {
@@ -84,7 +84,7 @@ void parcours_instr_si(n_instr *n) {
 	printf("je ");
 	generateLabel(); //je vais chez L1
 	printf("\n");
-	
+
 	parcours_instr(n->u.si_.alors);
 
 	printf("jmp ");
@@ -95,8 +95,8 @@ void parcours_instr_si(n_instr *n) {
 	generateLabel(); //je suis L1
 	nbLabel++;
 	printf(":\n");
-	
-	if (n->u.si_.sinon) {	
+
+	if (n->u.si_.sinon) {
 		parcours_instr(n->u.si_.sinon);
 	}//2610
 	generateLabel(); //it's a me L2
@@ -112,17 +112,17 @@ void parcours_instr_tantque(n_instr *n) {
 	int labelLoop = nbLabel;
 	printf(":\n");
 	nbLabel++;
-	
+
 	parcours_exp(n->u.tantque_.test); //L2 because if
-	
+
 	printf("pop eax\n");
 	printf("cmp eax, 0\n");
 	printf("je ");
 	generateLabel(); //go to L3
 	printf("\n");
-	
+
 	parcours_instr(n->u.tantque_.faire);
-	
+
 	int labelBU = nbLabel;
 	nbLabel = labelLoop;
 	printf("jmp ");
@@ -140,18 +140,18 @@ void parcours_instr_affect(n_instr *n) {
 
 	parcours_var(n->u.affecte_.var);
 	parcours_exp(n->u.affecte_.exp);
-	
+
 	int i = rechercheExecutable(n->u.affecte_.var->nom);
 	desc_identif var = tabsymboles.tab[i];
-			
+
 	printf("pop eax\n");
 	printf("pop ebx\n");
-		
+
 	if (var.type == T_ENTIER) {
-	
+
 		printf("mov [%s], eax\n", var.identif);
 	}
-	else {	
+	else {
 		//Calcule adresse tableau
 		printf("add eax, %i\n", var.adresse);
 		printf("mov [eax], ebx\n");
@@ -177,7 +177,7 @@ int countCallArgs(n_appel *n) {
 }
 
 void parcours_appel(n_appel *n) {
-	
+
 	int i = rechercheExecutable(n->fonction);
 	//name do not exist in this scope
 	if (i == -1) {
@@ -199,24 +199,24 @@ void parcours_appel(n_appel *n) {
 
 void parcours_instr_retour(n_instr *n) {
 
-    int params = tabsymboles.tab[indexCurrentFunc].complement;
-	
+	int params = tabsymboles.tab[indexCurrentFunc].complement;
+
 	parcours_exp(n->u.retour_.expression);
-	
+
 	printf("pop eax\n");
-	printf("mov [ebp + %i], eax\n", 8 + (params*4));
+	printf("mov [ebp + %i], eax\n", 8 + (params * 4));
 	printf("add esp, %i\n", adresseLocaleCourante);
 }
 
 /*-------------------------------------------------------------------------*/
 
 void parcours_instr_ecrire(n_instr *n) {
-	
+
 	parcours_exp(n->u.ecrire_.expression);
-	
+
 	printf("pop eax\n");
 	printf("call iprintLF\n");
-	
+
 }
 
 /*-------------------------------------------------------------------------*/
@@ -248,7 +248,7 @@ void parcours_varExp(n_exp *n) {
 
 /*-------------------------------------------------------------------------*/
 void parcours_opExp(n_exp *n) {
-	
+
 	/*if (n->u.opExp_.op == plus);
 	else if (n->u.opExp_.op == moins);
 	else if (n->u.opExp_.op == fois);
@@ -268,7 +268,7 @@ void parcours_opExp(n_exp *n) {
 		printf("pop ebx\n");
 	}
 	printf("pop eax\n");
-	switch(n->u.opExp_.op) {
+	switch (n->u.opExp_.op) {
 		case plus:
 			printf("add eax, ebx\n");
 			break;
@@ -287,11 +287,11 @@ void parcours_opExp(n_exp *n) {
 			printf("jl ");
 			generateLabel(); //go to L1
 			printf("\n");
-		printf("mov eax, 0\n");
-		printf("jmp ");
-		nbLabel++;
-		generateLabel(); //2L ot og
-		printf("\n");
+			printf("mov eax, 0\n");
+			printf("jmp ");
+			nbLabel++;
+			generateLabel(); //2L ot og
+			printf("\n");
 			nbLabel--;
 			generateLabel(); //here is L1
 			nbLabel++;
@@ -306,18 +306,18 @@ void parcours_opExp(n_exp *n) {
 			printf("jne ");
 			generateLabel(); //go to L1
 			printf("\n");
-		printf("mov eax, 0\n");
-		printf("jmp ");
-		nbLabel++;
-		generateLabel(); //e ikimasu L2
-		printf("\n");
+			printf("mov eax, 0\n");
+			printf("jmp ");
+			nbLabel++;
+			generateLabel(); //e ikimasu L2
+			printf("\n");
 			nbLabel--;
 			generateLabel(); //here is L1
 			nbLabel++;
 			printf(":\nmov eax, 1\n");
 			generateLabel(); //watashi wa L2
 			nbLabel++;
-			printf (":");
+			printf(":");
 			break;
 		case ou:
 			printf("cmp eax, 0\n");
@@ -326,10 +326,10 @@ void parcours_opExp(n_exp *n) {
 			printf("cmp ebx, 0\n");
 			printf("jne ");
 			generateLabel(); //go to L1
-		printf("mov eax, 0\n");
-		printf("jmp ");
-		nbLabel++;
-		generateLabel(); //go to L2
+			printf("mov eax, 0\n");
+			printf("jmp ");
+			nbLabel++;
+			generateLabel(); //go to L2
 			nbLabel--;
 			generateLabel(); //here is L1
 			printf(":\nmov eax, 1\n");
@@ -413,8 +413,8 @@ void parcours_dec(n_dec *n) {
 void parcours_foncDec(n_dec *n) {
 
 	indexCurrentFunc = rechercheDeclarative(n->nom);
-	
-	if (indexCurrentFunc != -1){
+
+	if (indexCurrentFunc != -1) {
 		fprintf(stderr, "Function %s is already declared\n", n->nom);
 		failSemCompil();
 	}
@@ -431,7 +431,7 @@ void parcours_foncDec(n_dec *n) {
 	portee = P_ARGUMENT;
 	parcours_l_dec(n->u.foncDec_.param);
 	portee = porteeBackUp;
-	
+
 	adresseLocaleCourante = 0;
 	currentGlobalAdr = adresseLocaleCourante;
 
@@ -446,7 +446,7 @@ void parcours_foncDec(n_dec *n) {
 	if (DEBUG_SEM) {
 		afficheTabsymboles();
 	}
-	
+
 	printf("pop ebp\n");
 	printf("ret\n");
 	sortieFonction();
@@ -460,12 +460,15 @@ void parcours_varDec(n_dec *n) {
 		fprintf(stderr, "Var %s is already declared\n", n->nom);
 		failSemCompil();
 	}
-	
+
 	ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseLocaleCourante, 0);
 	adresseLocaleCourante += 4;
-	
+
 	if (portee == P_VARIABLE_GLOBALE) {
 		printf("%s resd 1\n", n->nom);
+	}
+	else if (portee == P_ARGUMENT) {
+		// Nothing to do
 	}
 	else {
 		printf("sub esp, 4\n");
@@ -475,17 +478,17 @@ void parcours_varDec(n_dec *n) {
 /*-------------------------------------------------------------------------*/
 
 void parcours_tabDec(n_dec *n) {
-	
+
 	if (portee != P_VARIABLE_GLOBALE) {
 		fprintf(stderr, "Array %s is declared as an array but not in global scope\n", n->nom);
 		failSemCompil();
 	}
-	
+
 	//name already used in this scope
 	if (rechercheDeclarative(n->nom) != -1) {
 		fprintf(stderr, "Array %s is already declared\n", n->nom);
 		failSemCompil();
-	} 
+	}
 	ajouteIdentificateur(n->nom, portee, T_TABLEAU_ENTIER, adresseLocaleCourante,
 			n->u.tabDec_.taille);
 	adresseLocaleCourante += n->u.tabDec_.taille * 4;
@@ -509,18 +512,24 @@ void parcours_var_simple(n_var *n) {
 	if (i == -1) {
 		fprintf(stderr, "Var %s hasn't been declared\n", n->nom);
 		failSemCompil();
-	} 
+	}
 	//int having index
 	if (tabsymboles.tab[i].complement != 0) {
 		fprintf(stderr, "Var %s is a simple var but is used as array\n", n->nom);
 		failSemCompil();
 	}
-	
-	if (tabsymboles.tab[i].portee ==  P_VARIABLE_GLOBALE) {
+
+	if (tabsymboles.tab[i].portee == P_VARIABLE_GLOBALE) {
 		printf("push dword[%s]\n", n->nom);
 	}
+	else if (tabsymboles.tab[i].portee == P_ARGUMENT) {
+		int nbArgs = tabsymboles.tab[indexCurrentFunc].complement;
+		printf("mov eax, [ebp + %i]\n", (4 + 4 * nbArgs - tabsymboles.tab[i].adresse));
+		printf("push eax\n");
+	}
 	else {
-		printf("mov eax, [ebp - %i]\n", tabsymboles.tab[i].adresse);
+
+		printf("mov eax, [ebp - %i]\n", 4 - tabsymboles.tab[i].adresse);
 		printf("push eax\n");
 	}
 
@@ -531,36 +540,37 @@ void parcours_var_indicee(n_var *n) {
 	//name do not exist in this scope
 	if (i == -1) {
 		fprintf(stderr, "Array %s hasn't been declared\n", n->nom);
-		failSemCompil();
-	} 
+				failSemCompil();
+	}
 	//tab not having index
 	if (tabsymboles.tab[i].complement == 0) {
+
 		fprintf(stderr, "Array %s is an array but no index used when called\n", n->nom);
-		failSemCompil();
+				failSemCompil();
 	}
-	
+
 	// Push de l'indice entre corchets
 	parcours_exp(n->u.indicee_.indice);
 }
 
 void analyseSemantique(n_prog *pg) {
-	
+
 	printf("%%include \"io.asm\"\n");
 	printf("section .bss\n");
 	printf("sinput resb 255\n");
 	portee = P_VARIABLE_GLOBALE;
 	adresseLocaleCourante = 0;
 	adresseArgumentCourant = 0;
-	
+
 	parcours_n_prog(pg);
-	
+
 	int indiceMain = rechercheDeclarative("main");
 	if (indiceMain == -1) {
 		fprintf(stderr, "No main found\n");
-		failSemCompil();
+				failSemCompil();
 	}
 	if (tabsymboles.tab[indiceMain].complement > 0) {
 		fprintf(stderr, "Too much arguments\n");
-		failSemCompil();
+				failSemCompil();
 	}
 }
