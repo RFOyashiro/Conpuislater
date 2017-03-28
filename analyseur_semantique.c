@@ -148,8 +148,18 @@ void parcours_instr_affect(n_instr *n) {
 	printf("pop ebx\n");
 
 	if (var.type == T_ENTIER) {
+		
+		if (tabsymboles.tab[i].portee == P_VARIABLE_GLOBALE) {
+			printf("mov [%s], eax\n", var.identif);
+		}
+		else if (tabsymboles.tab[i].portee == P_ARGUMENT) {
+			int nbArgs = tabsymboles.tab[indexCurrentFunc].complement;
+			printf("mov  [ebp + %i], eax\n", (4 + 4 * nbArgs - tabsymboles.tab[i].adresse));
+		}
+		else {
 
-		printf("mov [%s], eax\n", var.identif);
+			printf("mov [ebp - %i], eax\n", 4 - tabsymboles.tab[i].adresse);
+		}
 	}
 	else {
 		//Calcule adresse tableau
