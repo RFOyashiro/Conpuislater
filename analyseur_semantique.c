@@ -49,7 +49,6 @@ void parcours_n_prog(n_prog *n) {
 	printf("global _start\n");
 	printf("_start:\n");
 	printf("call main\n");
-	printf("pop ebp\n");
 	printf("mov eax,1\n");
 	printf("int 0x80\n");
 	parcours_l_dec(n->fonctions);
@@ -223,9 +222,7 @@ void parcours_instr_retour(n_instr *n) {
 	printf("mov [ebp + %i], eax\n", 8 + (params * 4));
 	printf("add esp, %i\n", adresseLocaleCourante);
 	printf("pop ebp\n");
-	if (strcmp(tabsymboles.tab[indexCurrentFunc].identif, "main") != 0) {
-		printf("ret\n");
-	}
+	printf("ret\n");
 }
 
 /*-------------------------------------------------------------------------*/
@@ -465,6 +462,12 @@ void parcours_foncDec(n_dec *n) {
 
 	if (DEBUG_SEM) {
 		afficheTabsymboles();
+	}
+	
+	// For the main we need to add a ret instr
+	if (strcmp(tabsymboles.tab[indexCurrentFunc].identif, "main") == 0) {
+		printf("pop ebp\n");
+		printf("ret\n");
 	}
 
 	sortieFonction();
