@@ -36,14 +36,17 @@ entier $echange, entier $j, entier $m;
     {
         $echange = 0;
         $j = 0;
+        
         tantque $j < $m - 1 faire 
-        {
+        {        	
             si $tab[ $j + 1 ] < $tab[ $j ] alors {
                 echanger( $j, $j + 1 );
+                
                 $echange = 1;
             }
             $j = $j + 1;
         }
+        
         $m = $m - 1;        
     }    
 }

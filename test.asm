@@ -1,377 +1,416 @@
 %include "io.asm"
 section .bss
 sinput resb 255
-$tab resd 40
+$tab resd 40 ;Declaration d'un tableau global
 section .text
 global _start
 _start:
 call _FONC_main
 mov eax,1
 int 0x80
-_FONC_initialiser:
-push ebp
-mov ebp, esp
-push 0
-pop eax
-mov ebx [$tab + eax]
-push ebx
-push 8
-pop eax
-pop ebx
-push 0
-pop eax
-mov [$tab + eax] ebx
-push 1
-pop eax
-mov ebx [$tab + eax]
-push ebx
-push 6
-pop eax
-pop ebx
-push 1
-pop eax
-mov [$tab + eax] ebx
-push 2
-pop eax
-mov ebx [$tab + eax]
-push ebx
-push 9
-pop eax
-pop ebx
-push 2
-pop eax
-mov [$tab + eax] ebx
-push 3
-pop eax
-mov ebx [$tab + eax]
-push ebx
-push 9
-pop eax
-pop ebx
-push 3
-pop eax
-mov [$tab + eax] ebx
-push 4
-pop eax
-mov ebx [$tab + eax]
-push ebx
-push 4
-pop eax
-pop ebx
-push 4
-pop eax
-mov [$tab + eax] ebx
-push 5
-pop eax
-mov ebx [$tab + eax]
-push ebx
-push 2
-pop eax
-pop ebx
-push 5
-pop eax
-mov [$tab + eax] ebx
-push 6
-pop eax
-mov ebx [$tab + eax]
-push ebx
-push 3
-pop eax
-pop ebx
-push 6
-pop eax
-mov [$tab + eax] ebx
-push 7
-pop eax
-mov ebx [$tab + eax]
-push ebx
-push 1
-pop eax
-pop ebx
-push 7
-pop eax
-mov [$tab + eax] ebx
-push 8
-pop eax
-mov ebx [$tab + eax]
-push ebx
-push 4
-pop eax
-pop ebx
-push 8
-pop eax
-mov [$tab + eax] ebx
-push 9
-pop eax
-mov ebx [$tab + eax]
-push ebx
-push 5
-pop eax
-pop ebx
-push 9
-pop eax
-mov [$tab + eax] ebx
-_FONC_afficher:
-push ebp
-mov ebp, esp
-sub esp, 4
-mov eax, [ebp - 4]
-push eax
-push 0
-pop eax
-pop ebx
-mov [ebp - 4], eax
-L0:
-mov eax, [ebp - 4]
-push eax
-mov eax, [ebp + 8]
-push eax
-pop ebx
-pop eax
-cmp eax, ebx
-jl L1
-mov eax, 0
-jmp L2
+
+_FONC_initialiser: ;Declaration de fonction
+push ebp ;Sauvegarde ebp
+mov ebp, esp ;On se place en haut de la pile
+;parcour var indicee
+push 0 ;Expression d'un entier
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 8 ;Expression d'un entier
+push 0 ;Expression d'un entier
+pop ecx ;On recupere l'indice
+pop eax ;On recupere la resultat de l'expression
+mov [$tab + ecx * 4], eax ;Et on met le resultat de l'expression dans le tableau
+;parcour var indicee
+push 1 ;Expression d'un entier
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 6 ;Expression d'un entier
+push 1 ;Expression d'un entier
+pop ecx ;On recupere l'indice
+pop eax ;On recupere la resultat de l'expression
+mov [$tab + ecx * 4], eax ;Et on met le resultat de l'expression dans le tableau
+;parcour var indicee
+push 2 ;Expression d'un entier
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 9 ;Expression d'un entier
+push 2 ;Expression d'un entier
+pop ecx ;On recupere l'indice
+pop eax ;On recupere la resultat de l'expression
+mov [$tab + ecx * 4], eax ;Et on met le resultat de l'expression dans le tableau
+;parcour var indicee
+push 3 ;Expression d'un entier
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 9 ;Expression d'un entier
+push 3 ;Expression d'un entier
+pop ecx ;On recupere l'indice
+pop eax ;On recupere la resultat de l'expression
+mov [$tab + ecx * 4], eax ;Et on met le resultat de l'expression dans le tableau
+;parcour var indicee
+push 4 ;Expression d'un entier
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 4 ;Expression d'un entier
+push 4 ;Expression d'un entier
+pop ecx ;On recupere l'indice
+pop eax ;On recupere la resultat de l'expression
+mov [$tab + ecx * 4], eax ;Et on met le resultat de l'expression dans le tableau
+;parcour var indicee
+push 5 ;Expression d'un entier
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 2 ;Expression d'un entier
+push 5 ;Expression d'un entier
+pop ecx ;On recupere l'indice
+pop eax ;On recupere la resultat de l'expression
+mov [$tab + ecx * 4], eax ;Et on met le resultat de l'expression dans le tableau
+;parcour var indicee
+push 6 ;Expression d'un entier
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 3 ;Expression d'un entier
+push 6 ;Expression d'un entier
+pop ecx ;On recupere l'indice
+pop eax ;On recupere la resultat de l'expression
+mov [$tab + ecx * 4], eax ;Et on met le resultat de l'expression dans le tableau
+;parcour var indicee
+push 7 ;Expression d'un entier
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 1 ;Expression d'un entier
+push 7 ;Expression d'un entier
+pop ecx ;On recupere l'indice
+pop eax ;On recupere la resultat de l'expression
+mov [$tab + ecx * 4], eax ;Et on met le resultat de l'expression dans le tableau
+;parcour var indicee
+push 8 ;Expression d'un entier
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 4 ;Expression d'un entier
+push 8 ;Expression d'un entier
+pop ecx ;On recupere l'indice
+pop eax ;On recupere la resultat de l'expression
+mov [$tab + ecx * 4], eax ;Et on met le resultat de l'expression dans le tableau
+;parcour var indicee
+push 9 ;Expression d'un entier
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 5 ;Expression d'un entier
+push 9 ;Expression d'un entier
+pop ecx ;On recupere l'indice
+pop eax ;On recupere la resultat de l'expression
+mov [$tab + ecx * 4], eax ;Et on met le resultat de l'expression dans le tableau
+add esp, 0
+pop ebp
+ret
+
+_FONC_afficher: ;Declaration de fonction
+push ebp ;Sauvegarde ebp
+mov ebp, esp ;On se place en haut de la pile
+sub esp, 4 ;Reservation d'une variable locale
+mov eax, [ebp - 4] ;Recuperation variable locale
+push eax ;Envoie variable locale
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 0 ;Expression d'un entier
+pop eax ;On recupere la resultat de l'expression
+mov [ebp - 4], eax ;Affectation variable locale
+L0: ;Debut de tant que
+mov eax, [ebp - 4] ;Recuperation variable locale
+push eax ;Envoie variable locale
+mov eax, [ebp + 8] ;Recuperation argument
+push eax ;Envoie argument
+pop ebx ;Recuperation 2e operandes
+pop eax ;Recuperation 1e operande
+cmp eax, ebx ;Si op1 < op2
+jl L1 ;Aller mettre 1
+mov eax, 0 ;Mettre 0
+jmp L2 ;Aller envoyer resultat
 L1:
-mov eax, 1
-L2:
-push eax
-pop eax
-cmp eax, 0
-je L3
-mov eax, [ebp - 4]
-push eax
-pop eax
-mov ebx [$tab + eax]
-push ebx
-pop eax
-call iprintLF
-mov eax, [ebp - 4]
-push eax
-mov eax, [ebp - 4]
-push eax
-push 1
-pop ebx
-pop eax
-add eax, ebx
-push eax
-pop eax
-pop ebx
-mov [ebp - 4], eax
-jmp L0
-L3:
-push 0
-pop eax
-call iprintLF
-_FONC_echanger:
-push ebp
-mov ebp, esp
-sub esp, 4
-mov eax, [ebp - 4]
-push eax
-mov eax, [ebp + 8]
-push eax
-pop eax
-mov ebx [$tab + eax]
-push ebx
-pop eax
-pop ebx
-mov [ebp - 4], eax
-mov eax, [ebp + 8]
-push eax
-pop eax
-mov ebx [$tab + eax]
-push ebx
-mov eax, [ebp + 12]
-push eax
-pop eax
-mov ebx [$tab + eax]
-push ebx
-pop eax
-pop ebx
-mov eax, [ebp + 8]
-push eax
-pop eax
-mov [$tab + eax] ebx
-mov eax, [ebp + 12]
-push eax
-pop eax
-mov ebx [$tab + eax]
-push ebx
-mov eax, [ebp - 4]
-push eax
-pop eax
-pop ebx
-mov eax, [ebp + 12]
-push eax
-pop eax
-mov [$tab + eax] ebx
-_FONC_trier:
-push ebp
-mov ebp, esp
-sub esp, 4
-sub esp, 4
-sub esp, 4
-mov eax, [ebp - 12]
-push eax
-mov eax, [ebp + 8]
-push eax
-pop eax
-pop ebx
-mov [ebp - 12], eax
-mov eax, [ebp - 4]
-push eax
-push 1
-pop eax
-pop ebx
-mov [ebp - 4], eax
-L4:
-mov eax, [ebp - 4]
-push eax
-push 1
-pop ebx
-pop eax
-cmp eax, ebx
+mov eax, 1 ;Mettre 1
+L2: ;Envoyer resultat
+push eax ;Envoie resultat
+pop eax ;Recuperation resultat test
+cmp eax, 0 ;Si le test est faux
+je L3 ;Aller a la suite du tant que
+;parcour var indicee
+mov eax, [ebp - 4] ;Recuperation variable locale
+push eax ;Envoie variable locale
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop eax ;Recuperation resultat expression ecrire
+call iprintLF ;Appel a ecrire
+mov eax, [ebp - 4] ;Recuperation variable locale
+push eax ;Envoie variable locale
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+mov eax, [ebp - 4] ;Recuperation variable locale
+push eax ;Envoie variable locale
+push 1 ;Expression d'un entier
+pop ebx ;Recuperation 2e operandes
+pop eax ;Recuperation 1e operande
+add eax, ebx ;Ajout op1 += op2
+push eax ;Envoie resultat
+pop eax ;On recupere la resultat de l'expression
+mov [ebp - 4], eax ;Affectation variable locale
+jmp L0 ;Retour debut de tant que
+L3: ;Suite du tant que
+push 0 ;Expression d'un entier
+pop eax ;Recuperation resultat expression ecrire
+call iprintLF ;Appel a ecrire
+add esp, 4
+pop ebp
+ret
+
+_FONC_echanger: ;Declaration de fonction
+push ebp ;Sauvegarde ebp
+mov ebp, esp ;On se place en haut de la pile
+sub esp, 4 ;Reservation d'une variable locale
+mov eax, [ebp - 4] ;Recuperation variable locale
+push eax ;Envoie variable locale
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+;parcour var indicee
+mov eax, [ebp + 8] ;Recuperation argument
+push eax ;Envoie argument
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop eax ;On recupere la resultat de l'expression
+mov [ebp - 4], eax ;Affectation variable locale
+;parcour var indicee
+mov eax, [ebp + 8] ;Recuperation argument
+push eax ;Envoie argument
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+;parcour var indicee
+mov eax, [ebp + 12] ;Recuperation argument
+push eax ;Envoie argument
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+mov eax, [ebp + 8] ;Recuperation argument
+push eax ;Envoie argument
+pop ecx ;On recupere l'indice
+pop eax ;On recupere la resultat de l'expression
+mov [$tab + ecx * 4], eax ;Et on met le resultat de l'expression dans le tableau
+;parcour var indicee
+mov eax, [ebp + 12] ;Recuperation argument
+push eax ;Envoie argument
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+mov eax, [ebp - 4] ;Recuperation variable locale
+push eax ;Envoie variable locale
+mov eax, [ebp + 12] ;Recuperation argument
+push eax ;Envoie argument
+pop ecx ;On recupere l'indice
+pop eax ;On recupere la resultat de l'expression
+mov [$tab + ecx * 4], eax ;Et on met le resultat de l'expression dans le tableau
+add esp, 4
+pop ebp
+ret
+
+_FONC_trier: ;Declaration de fonction
+push ebp ;Sauvegarde ebp
+mov ebp, esp ;On se place en haut de la pile
+sub esp, 4 ;Reservation d'une variable locale
+sub esp, 4 ;Reservation d'une variable locale
+sub esp, 4 ;Reservation d'une variable locale
+mov eax, [ebp - 12] ;Recuperation variable locale
+push eax ;Envoie variable locale
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+mov eax, [ebp + 8] ;Recuperation argument
+push eax ;Envoie argument
+pop eax ;On recupere la resultat de l'expression
+mov [ebp - 12], eax ;Affectation variable locale
+mov eax, [ebp - 4] ;Recuperation variable locale
+push eax ;Envoie variable locale
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 1 ;Expression d'un entier
+pop eax ;On recupere la resultat de l'expression
+mov [ebp - 4], eax ;Affectation variable locale
+L4: ;Debut de tant que
+mov eax, [ebp - 4] ;Recuperation variable locale
+push eax ;Envoie variable locale
+push 1 ;Expression d'un entier
+pop ebx ;Recuperation 2e operandes
+pop eax ;Recuperation 1e operande
+cmp eax, ebx ;EGAL
 je L5
 mov eax, 0
 jmp L6
 L5:
 mov eax, 1
 L6:
-push eax
-pop eax
-cmp eax, 0
-je L7
-mov eax, [ebp - 4]
-push eax
-push 0
-pop eax
-pop ebx
-mov [ebp - 4], eax
-mov eax, [ebp - 8]
-push eax
-push 0
-pop eax
-pop ebx
-mov [ebp - 8], eax
-L7:
-mov eax, [ebp - 8]
-push eax
-mov eax, [ebp - 12]
-push eax
-push 1
-pop ebx
-pop eax
-sub eax, ebx
-push eax
-pop ebx
-pop eax
-cmp eax, ebx
-jl L8
-mov eax, 0
-jmp L9
-L8:
-mov eax, 1
+push eax ;Envoie resultat
+pop eax ;Recuperation resultat test
+cmp eax, 0 ;Si le test est faux
+je L7 ;Aller a la suite du tant que
+mov eax, [ebp - 4] ;Recuperation variable locale
+push eax ;Envoie variable locale
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 0 ;Expression d'un entier
+pop eax ;On recupere la resultat de l'expression
+mov [ebp - 4], eax ;Affectation variable locale
+mov eax, [ebp - 8] ;Recuperation variable locale
+push eax ;Envoie variable locale
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 0 ;Expression d'un entier
+pop eax ;On recupere la resultat de l'expression
+mov [ebp - 8], eax ;Affectation variable locale
+L8: ;Debut de tant que
+mov eax, [ebp - 8] ;Recuperation variable locale
+push eax ;Envoie variable locale
+mov eax, [ebp - 12] ;Recuperation variable locale
+push eax ;Envoie variable locale
+push 1 ;Expression d'un entier
+pop ebx ;Recuperation 2e operandes
+pop eax ;Recuperation 1e operande
+sub eax, ebx ;Soustractino op1 -= op2
+push eax ;Envoie resultat
+pop ebx ;Recuperation 2e operandes
+pop eax ;Recuperation 1e operande
+cmp eax, ebx ;Si op1 < op2
+jl L9 ;Aller mettre 1
+mov eax, 0 ;Mettre 0
+jmp L10 ;Aller envoyer resultat
 L9:
-push eax
-pop eax
-cmp eax, 0
-je L10
-mov eax, [ebp - 8]
-push eax
-push 1
-pop ebx
-pop eax
-add eax, ebx
-push eax
-pop eax
-mov ebx [$tab + eax]
-push ebx
-mov eax, [ebp - 8]
-push eax
-pop eax
-mov ebx [$tab + eax]
-push ebx
-pop ebx
-pop eax
-cmp eax, ebx
-jl L10
-mov eax, 0
-jmp L11
-L10:
-mov eax, 1
-L11:
-push eax
-pop eax
-cmp eax, 0
-je L12
-sub esp, 4
-mov eax, [ebp - 8]
-push eax
-mov eax, [ebp - 8]
-push eax
-push 1
-pop ebx
-pop eax
-add eax, ebx
-push eax
-call _FONC_echanger
-add esp, 8
-mov eax, [ebp - 4]
-push eax
-push 1
-pop eax
-pop ebx
-mov [ebp - 4], eax
-jmp L13
+mov eax, 1 ;Mettre 1
+L10: ;Envoyer resultat
+push eax ;Envoie resultat
+pop eax ;Recuperation resultat test
+cmp eax, 0 ;Si le test est faux
+je L11 ;Aller a la suite du tant que
+;parcour var indicee
+mov eax, [ebp - 8] ;Recuperation variable locale
+push eax ;Envoie variable locale
+push 1 ;Expression d'un entier
+pop ebx ;Recuperation 2e operandes
+pop eax ;Recuperation 1e operande
+add eax, ebx ;Ajout op1 += op2
+push eax ;Envoie resultat
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+;parcour var indicee
+mov eax, [ebp - 8] ;Recuperation variable locale
+push eax ;Envoie variable locale
+pop eax ;Recuperation de l'indice
+mov ebx, [$tab + eax * 4] ;Recuperation de la valeur de la case
+push ebx ;Envoie de la valeur de la case
+pop ebx ;Recuperation 2e operandes
+pop eax ;Recuperation 1e operande
+cmp eax, ebx ;Si op1 < op2
+jl L12 ;Aller mettre 1
+mov eax, 0 ;Mettre 0
+jmp L13 ;Aller envoyer resultat
 L12:
-L13:
-mov eax, [ebp - 8]
-push eax
-mov eax, [ebp - 8]
-push eax
-push 1
-pop ebx
-pop eax
-add eax, ebx
-push eax
-pop eax
-pop ebx
-mov [ebp - 8], eax
-jmp L7
-L14:
-mov eax, [ebp - 12]
-push eax
-mov eax, [ebp - 12]
-push eax
-push 1
-pop ebx
-pop eax
-sub eax, ebx
-push eax
-pop eax
-pop ebx
-mov [ebp - 12], eax
-jmp L4
-L15:
-_FONC_main:
-push ebp
-mov ebp, esp
-sub esp, 4
-call _FONC_initialiser
-add esp, 0
-sub esp, 4
-push 10
-call _FONC_afficher
-add esp, 4
-sub esp, 4
-push 10
-call _FONC_trier
-add esp, 4
-sub esp, 4
-push 10
-call _FONC_afficher
-add esp, 4
+mov eax, 1 ;Mettre 1
+L13: ;Envoyer resultat
+push eax ;Envoie resultat
+pop eax ;Recuperation resultat test
+cmp eax, 0 ;Si c'est faux
+je L14 ;Aller la bas
+sub esp, 4 ;Reservation espace valeur de retour
+mov eax, [ebp - 8] ;Recuperation variable locale
+push eax ;Envoie variable locale
+mov eax, [ebp - 8] ;Recuperation variable locale
+push eax ;Envoie variable locale
+push 1 ;Expression d'un entier
+pop ebx ;Recuperation 2e operandes
+pop eax ;Recuperation 1e operande
+add eax, ebx ;Ajout op1 += op2
+push eax ;Envoie resultat
+call _FONC_echanger ;Appel de la fonction
+add esp, 8 ;Liberation de l'espace des arguments
+add esp, 4 ;Si c'est un simple appel on ignore la valeur de retour
+mov eax, [ebp - 4] ;Recuperation variable locale
+push eax ;Envoie variable locale
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+push 1 ;Expression d'un entier
+pop eax ;On recupere la resultat de l'expression
+mov [ebp - 4], eax ;Affectation variable locale
+jmp L15 ; Aller a la suite du si
+L14: ;Sinon
+L15: ;Suite du si
+mov eax, [ebp - 8] ;Recuperation variable locale
+push eax ;Envoie variable locale
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+mov eax, [ebp - 8] ;Recuperation variable locale
+push eax ;Envoie variable locale
+push 1 ;Expression d'un entier
+pop ebx ;Recuperation 2e operandes
+pop eax ;Recuperation 1e operande
+add eax, ebx ;Ajout op1 += op2
+push eax ;Envoie resultat
+pop eax ;On recupere la resultat de l'expression
+mov [ebp - 8], eax ;Affectation variable locale
+jmp L8 ;Retour debut de tant que
+L11: ;Suite du tant que
+mov eax, [ebp - 12] ;Recuperation variable locale
+push eax ;Envoie variable locale
+pop ebx ;On ignore la valeur de la variable car on fait une affectation
+mov eax, [ebp - 12] ;Recuperation variable locale
+push eax ;Envoie variable locale
+push 1 ;Expression d'un entier
+pop ebx ;Recuperation 2e operandes
+pop eax ;Recuperation 1e operande
+sub eax, ebx ;Soustractino op1 -= op2
+push eax ;Envoie resultat
+pop eax ;On recupere la resultat de l'expression
+mov [ebp - 12], eax ;Affectation variable locale
+jmp L4 ;Retour debut de tant que
+L7: ;Suite du tant que
+add esp, 12
+pop ebp
+ret
+
+_FONC_main: ;Declaration de fonction
+push ebp ;Sauvegarde ebp
+mov ebp, esp ;On se place en haut de la pile
+sub esp, 4 ;Reservation espace valeur de retour
+call _FONC_initialiser ;Appel de la fonction
+add esp, 0 ;Liberation de l'espace des arguments
+add esp, 4 ;Si c'est un simple appel on ignore la valeur de retour
+sub esp, 4 ;Reservation espace valeur de retour
+push 10 ;Expression d'un entier
+call _FONC_afficher ;Appel de la fonction
+add esp, 4 ;Liberation de l'espace des arguments
+add esp, 4 ;Si c'est un simple appel on ignore la valeur de retour
+sub esp, 4 ;Reservation espace valeur de retour
+push 10 ;Expression d'un entier
+call _FONC_trier ;Appel de la fonction
+add esp, 4 ;Liberation de l'espace des arguments
+add esp, 4 ;Si c'est un simple appel on ignore la valeur de retour
+sub esp, 4 ;Reservation espace valeur de retour
+push 10 ;Expression d'un entier
+call _FONC_afficher ;Appel de la fonction
+add esp, 4 ;Liberation de l'espace des arguments
+add esp, 4 ;Si c'est un simple appel on ignore la valeur de retour
 add esp, 0
 pop ebp
 ret
