@@ -16,7 +16,7 @@
 /**
  * Main function to use the synthaxic analyser.
  */
-n_prog *analyse(void);
+n_prog *analyse(int deb);
 
 n_prog *pg(void);
 n_l_dec *odv(void);
@@ -46,6 +46,8 @@ n_exp *conj(void);
 n_exp *conjb(n_exp* herit);
 n_exp *comp(void);
 n_exp *compb(n_exp* herit);
+n_exp *m(void);
+n_exp *mb(n_exp* herit);
 n_exp *e(void);
 n_exp *eb(n_exp* herit);
 n_exp *t(void);

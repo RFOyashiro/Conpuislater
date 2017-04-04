@@ -296,17 +296,22 @@ void parcours_opExp(n_exp *n) {
 	printf("pop eax ;Recuperation 1e operande\n");
 	switch (n->u.opExp_.op) {
 		case plus:
-			printf("add eax, ebx ;Ajout op1 += op2\n");
+			printf("add eax, ebx ;Additino op1 += op2\n");
 			break;
 		case fois:
-			printf("mul ebx ;Multiplication op1 *= op2\n");
+			printf("mul ebx ;Multiplicatino op1 *= op2\n");
 			break;
 		case moins:
 			printf("sub eax, ebx ;Soustractino op1 -= op2\n");
 			break;
 		case divise:
-			printf("mov edx, 0 ;Reinitialisation edx\n");
-			printf("div eax, ebx ;Division op1 /= op2\n");
+			printf("mov edx, 0 ;Reinitialisatino edx\n");
+			printf("div ebx ;Divisino op1 /= op2\n");
+			break;
+		case modulo:
+			printf("mov edx, 0 ;Reinitialisatino edx\n");
+			printf("div ebx ;Divisino op1 /= op2\n");
+			printf("mov eax, edx ;Reste\n");
 			break;
 		case inf:
 			printf("cmp eax, ebx ;Si op1 < op2\n");
@@ -349,13 +354,16 @@ void parcours_opExp(n_exp *n) {
 			printf("cmp eax, 0 ;OU\n");
 			printf("jne ");
 			generateLabel(); //go to L1
+			printf("\n");
 			printf("cmp ebx, 0\n");
 			printf("jne ");
 			generateLabel(); //go to L1
+			printf("\n");
 			printf("mov eax, 0\n");
 			printf("jmp ");
 			nbLabel++;
 			generateLabel(); //go to L2
+			printf("\n");
 			nbLabel--;
 			generateLabel(); //here is L1
 			printf(":\nmov eax, 1\n");
@@ -363,6 +371,7 @@ void parcours_opExp(n_exp *n) {
 			generateLabel(); //here is L2
 			nbLabel++;
 			printf(":\n");
+			break;
 		case egal:
 			printf("cmp eax, ebx ;EGAL\n");
 			printf("je ");

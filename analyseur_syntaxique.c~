@@ -3,7 +3,7 @@
 // Number of sapce per indentation level.
 #define NB_SPACE_PER_INDENT 2
 // Display debug values if is 1.
-#define DEBUG 1
+int DEBUG = 0;
 
 /**
  * Last value returned by lexical analyser.
@@ -76,6 +76,7 @@ char * getTokenTag(int token) {
 		case PLUS:
 		case MOINS:
 		case FOIS:
+		case MODULO:
 		case DIVISE:
 		case PARENTHESE_OUVRANTE:
 		case PARENTHESE_FERMANTE:
@@ -702,12 +703,12 @@ n_exp *conjb(n_exp* herit) {
 
 n_exp *comp(void) {
 	n_exp *$comp = NULL;
-	n_exp *$e = NULL;
+	n_exp *$m = NULL;
 	n_exp *$compb = NULL;
 	openXML(__func__);
-	if (est_premier(_expArith_, currentUnit)) {
-		$e = e();
-		$compb = compb($e);
+	if (est_premier(_modulo_, currentUnit)) {
+		$m = m();
+		$compb = compb($m);
 		$comp = $compb;
 		closeXML(__func__);
 		return $comp;
@@ -719,21 +720,21 @@ n_exp *comp(void) {
 n_exp *compb(n_exp *herit) {
 	
 	n_exp *$compb = NULL;
-	n_exp *$e = NULL;
+	n_exp *$m = NULL;
 	n_exp *$compb2 = NULL;
 	openXML(__func__);
 	if (checkToken(EGAL)) {
 
-		$e = e();
-		$compb2 = compb($e);
+		$m = m();
+		$compb2 = compb($m);
 		$compb = cree_n_exp_op(egal, herit, $compb2);
 		closeXML(__func__);
 		return $compb;
 	}
 	if (checkToken(INFERIEUR)) {
 
-		$e = e();
-		$compb2 = compb($e);
+		$m = m();
+		$compb2 = compb($m);
 		$compb = cree_n_exp_op(inf, herit, $compb2);
 		closeXML(__func__);
 		return $compb;
@@ -744,6 +745,47 @@ n_exp *compb(n_exp *herit) {
 		return $compb;
 	}
 
+	error();
+	return NULL;
+}
+
+n_exp *m(void) {
+	
+	n_exp *$m = NULL;
+	n_exp *$e = NULL;
+	n_exp *$mb = NULL;
+	openXML(__func__);
+	if (est_premier(_expArith_, currentUnit)) {
+		$e = e();
+		$mb = mb($e);
+		$m = $mb;
+		closeXML(__func__);
+		return $m;
+	}
+	error();
+	return NULL;
+}
+
+n_exp *mb(n_exp *herit) {
+	
+	n_exp *$mb = NULL;
+	n_exp *$e = NULL;
+	n_exp *$mb2 = NULL;
+	openXML(__func__);
+	if (checkToken(MODULO)) {
+
+		$e = e();
+		$mb2 = mb($e);
+		$mb = cree_n_exp_op(modulo, herit, $mb2);
+		closeXML(__func__);
+		return $mb;
+	}
+	if (est_suivant(_moduloBis_, currentUnit)) {
+		
+		$mb = herit;
+		closeXML(__func__);
+		return $mb;
+	}
 	error();
 	return NULL;
 }
@@ -774,16 +816,17 @@ n_exp *eb(n_exp *herit) {
 	if (checkToken(PLUS)) {
 
 		$t = t();
-		$eb2 = eb($t);
-		$eb = cree_n_exp_op(plus, herit, $eb2);
+		$eb = cree_n_exp_op(plus, herit, $t);
+		$eb2 = eb($eb);
+		
 		closeXML(__func__);
 		return $eb;
 	}
 	if (checkToken(MOINS)) {
 
 		$t = t();
-		$eb2 = eb($t);
-		$eb = cree_n_exp_op(moins, herit, $eb2);
+		$eb = cree_n_exp_op(moins, herit, $t);
+		$eb2 = eb($eb);
 		closeXML(__func__);
 		return $eb;
 	}
@@ -1041,10 +1084,12 @@ n_l_exp *lexpb(void) {
 /**
  * Main function to use the synthaxic analyser.
  */
-n_prog *analyse(void) {
+n_prog *analyse(int deb) {
 	currentUnit = yylex();
 	currentIndent = 0;
-
+	
+	if (deb) DEBUG = 1;
+	
 	n_prog *prog = pg();
 
 	if (currentUnit != FIN) {

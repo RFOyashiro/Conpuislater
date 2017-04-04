@@ -139,6 +139,18 @@ void initialise_premiers(void) {
 	premiers[_comparaisonBis_][EGAL] = 1;
 	// Epsilon
 	
+	//M
+	premiers[_modulo_][NON] = 1;
+	premiers[_modulo_][PARENTHESE_OUVRANTE] = 1;
+	premiers[_modulo_][NOMBRE] = 1;
+	premiers[_modulo_][ID_FCT] = 1;
+	premiers[_modulo_][ID_VAR] = 1;
+	premiers[_modulo_][LIRE] = 1;
+	
+	//MB
+	premiers[_moduloBis_][MODULO] = 1;
+	//Epsilon
+	
 	// E
 	premiers[_expArith_][NON] = 1;
 	premiers[_expArith_][PARENTHESE_OUVRANTE] = 1;

@@ -94,6 +94,7 @@ int yylex(void) {
 	else if (c == '-') return MOINS;
 	else if (c == '*') return FOIS;
 	else if (c == '/') return DIVISE;
+	else if (c == '%') return MODULO;
 	else if (c == '(') return PARENTHESE_OUVRANTE;
 	else if (c == ')') return PARENTHESE_FERMANTE;
 	else if (c == '[') return CROCHET_OUVRANT;

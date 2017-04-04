@@ -18,6 +18,8 @@ FILE *yyin = NULL;
 int analyseLex = 0;
 int analyseSynt = 0;
 int analyseSem = 0;
+int afficheAbreAbstrait = 0;
+int afficheAbreSynt = 0;
 
 int mainError() {
 	fprintf(stderr, "main error\n");
@@ -34,12 +36,19 @@ int main(int argc, char **argv) {
 			analyseLex = 1;
 			continue;
 		}
-		if (strcmp(argv[i], "-s") == 0) {
+		if(strcmp(argv[i], "-a") == 0){
 			analyseSynt = 1;
+			afficheAbreAbstrait = 1;
 			continue;
 		}
-		if (strcmp(argv[i], "-S") == 0) {
+		if(strcmp(argv[i], "-s") == 0){
+			analyseSynt = 1;
+			afficheAbreSynt = 1;
+			continue;
+		}
+		if (strcmp(argv[i], "-n") == 0) {
 			analyseSem = 1;
+			analyseSynt = 1;
 			continue;
 		}
 		yyin = fopen(argv[i], "r");
@@ -58,14 +67,14 @@ int main(int argc, char **argv) {
 		initialise_premiers();
 		initialise_suivants();
 		prog = analyse();
-		if (DEBUG_ABSTR)
+		if (afficheAbreAbstrait)
 			affiche_n_prog(prog);
 	}
 	if(analyseSem) {
-		if (!analyseSynt) {
+		/*if (!analyseSynt) {
 			fprintf(stderr, "In order to run the semantic analyse, you must run syntaxic analyse first\n");
 			res = mainError();
-		}
+		}*/
 		analyseSemantique(prog);
 	}
 	if (yyin != NULL)
